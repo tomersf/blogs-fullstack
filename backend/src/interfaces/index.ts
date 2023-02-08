@@ -1,14 +1,15 @@
 type Blog = {
   title: String;
   author: String;
-  test: String;
+  url: String;
+  likes: Number;
 };
 
 type Person = {
-  name: string;
+  name: String;
   blogs: Blog[];
-  password: string;
-  email: string;
+  password: String;
+  email: String;
 };
 
 export type { Blog, Person };

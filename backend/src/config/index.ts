@@ -1,16 +1,19 @@
 import { config } from "dotenv";
 config();
 
-type MongoDBConnections = {
-    BLOGS_URL?: string,
-    PERSONS_URL?: string
-}
+const PORT = process.env.PORT || 3001;
+const MONGODB_URI =
+  process.env.NODE_ENV === "production" ? process.env.MONGODB_URI : undefined;
+const isDev = process.env.NODE === "development" ? true : false;
+const isTest = process.env.NODE === "test" ? true : false;
+const isProd = process.env.NODE === "production" ? true : false;
 
-const PORT = process.env.PORT
-const MONGODB_URLS : MongoDBConnections= {
-    BLOGS_URL: process.env.NODE_ENV === 'test' ? process.env.TEST_BLOGS_MONGODB_URI : process.env.PROD_BLOGS_MONGODB_URI,
-    PERSONS_URL: process.env.NODE_ENV === 'test' ? process.env.TEST_PERSONS_MONGODB_URI : process.env.PROD_PERSONS_MONGODB_URI
-}
+const appConfig = {
+  PORT,
+  MONGODB_URI,
+  isDev,
+  isTest,
+  isProd,
+};
 
-
-export default {PORT,MONGODB_URLS}
+export default appConfig;
