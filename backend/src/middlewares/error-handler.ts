@@ -15,14 +15,18 @@ function errorHandlerMiddleware<T extends CustomAPIError | Error>(
   }
   switch (err.name) {
     case MONGODB_ERROR_NAMES.CastError:
-      return res.status(StatusCodes.BAD_REQUEST).json({msg: 'Invalid ID was given'})
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ msg: "Invalid ID was given" });
     case MONGODB_ERROR_NAMES.ValidationError:
-      return res.status(StatusCodes.BAD_REQUEST).json({msg: 'Validations failed'})
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ msg: "Validations failed" });
 
     default:
       return res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: err.message });
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ msg: err.message });
   }
 }
 

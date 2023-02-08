@@ -1,7 +1,35 @@
 import { Schema, model, connect } from "mongoose";
 import { Blog } from "../interfaces";
 
-const blogSchema = new Schema<Blog>({});
+const blogSchema = new Schema<Blog>({
+  title: {
+    type: String,
+    required: [true, "Title must be at least 5 chars long"],
+    minlength: 5,
+  },
+  author: {
+    type: String,
+    required: [true, "Author must be at least 2 chars long"],
+    minlength: 2,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
+  url: {
+    type: String,
+    validate: {
+      validator: (value: any) => {
+        return /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/.test(
+          value
+        );
+      },
+      message: (props) => `${props.value} is not a valid URL!`,
+    },
+    required: [true, "Must enter a blog url"],
+  },
+});
 
 blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {

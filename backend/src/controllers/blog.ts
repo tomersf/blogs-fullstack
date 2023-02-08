@@ -5,37 +5,39 @@ import { BadRequestError, NotFoundError } from "../errors";
 import ModelBlog from "../models/Blog";
 
 const getAllBlogs = async (req: Request, res: Response) => {
-  const persons = await ModelPerson.find({});
-  return res.status(StatusCodes.OK).send(persons);
+  const blogs = await ModelBlog.find({});
+  return res.status(StatusCodes.OK).send(blogs);
 };
 
 const addBlog = async (req: Request, res: Response) => {
-  const person = req.body as Person;
-  if (!person.name || !person.number)
-    throw new BadRequestError("Please provide name and email");
+  const { author, likes, title, url } = req.body as Blog;
+  if (!author || !title || !url)
+    throw new BadRequestError("Please provide author, title and url");
 
-  const existingPerson = await ModelPerson.findOne({
-    name: person.name,
-    number: person.number,
+  const existingBlog = await ModelBlog.findOne({
+    author,
+    title,
+    url,
+    likes,
   });
 
-  if (existingPerson) throw new BadRequestError("Person already exists");
-  const newPerson = await ModelPerson.create(person);
-  res.status(StatusCodes.CREATED).json(newPerson);
+  if (existingBlog) throw new BadRequestError("Blog already exists");
+  const newBlog = await ModelBlog.create({ author, title, url, likes });
+  res.status(StatusCodes.CREATED).json(newBlog);
 };
 
 const getBlog = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const person = await ModelPerson.findOne({ _id: id });
-  if (!person) throw new NotFoundError("Unable to find person");
+  const blog = await ModelBlog.findOne({ _id: id });
+  if (!blog) throw new NotFoundError("Unable to find blog");
 
-  return res.status(StatusCodes.OK).json(person);
+  return res.status(StatusCodes.OK).json(blog);
 };
 
 const deleteBlog = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const person = await ModelPerson.findByIdAndRemove({ _id: id });
-  if (!person) throw new NotFoundError("Unable to find person");
+  const blog = await ModelBlog.findByIdAndRemove({ _id: id });
+  if (!blog) throw new NotFoundError("Unable to find blog");
   return res.status(StatusCodes.NO_CONTENT).send();
 };
 

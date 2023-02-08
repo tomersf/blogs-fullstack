@@ -11,12 +11,12 @@ const getAllPersons = async (req: Request, res: Response) => {
 
 const addPerson = async (req: Request, res: Response) => {
   const person = req.body as Person;
-  if (!person.name || !person.number)
-    throw new BadRequestError("Please provide name and email");
+  if (!person.name || !person.email || !person.password)
+    throw new BadRequestError("Please provide name, email and password");
 
   const existingPerson = await ModelPerson.findOne({
     name: person.name,
-    number: person.number,
+    email: person.email,
   });
 
   if (existingPerson) throw new BadRequestError("Person already exists");
