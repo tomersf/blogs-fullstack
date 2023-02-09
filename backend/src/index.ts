@@ -1,5 +1,6 @@
 import express from "express";
 import "express-async-errors";
+import cors from "cors";
 import rateLimiter from "express-rate-limit";
 import connectDB from "./db/connect";
 import {
@@ -17,7 +18,7 @@ app.use(
     max: 100, // limit each IP to 100 requests per windowMs
   })
 );
-
+app.use(cors());
 app.use(express.json());
 app.use(express.static("build"));
 app.use(morganMiddleware);

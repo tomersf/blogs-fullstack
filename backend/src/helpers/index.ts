@@ -1,6 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { Person } from "../interfaces";
+import { totalLikes, favoriteBlog } from "./blog";
 
 enum MONGODB_ERROR_NAMES {
   "CastError" = "CastError",
@@ -13,4 +14,4 @@ const loadDB = (): Person[] => {
   );
 };
 
-export { loadDB, MONGODB_ERROR_NAMES };
+export { loadDB, MONGODB_ERROR_NAMES, totalLikes, favoriteBlog };
