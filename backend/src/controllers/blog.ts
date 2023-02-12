@@ -4,6 +4,15 @@ import { Blog } from "../interfaces";
 import { BadRequestError, NotFoundError } from "../errors";
 import ModelBlog from "../models/Blog";
 
+const blogPropsExistenceValidator = (
+  author: string,
+  title: string,
+  url: string
+) => {
+  if (!author || !title || !url)
+    throw new BadRequestError("Please provide author, title and url");
+};
+
 const getAllBlogs = async (req: Request, res: Response) => {
   const blogs = await ModelBlog.find({});
   return res.status(StatusCodes.OK).send(blogs);
@@ -11,8 +20,7 @@ const getAllBlogs = async (req: Request, res: Response) => {
 
 const addBlog = async (req: Request, res: Response) => {
   const { author, likes, title, url } = req.body as Blog;
-  if (!author || !title || !url)
-    throw new BadRequestError("Please provide author, title and url");
+  blogPropsExistenceValidator(author, title, url);
 
   const existingBlog = await ModelBlog.findOne({
     author,
@@ -41,4 +49,22 @@ const deleteBlog = async (req: Request, res: Response) => {
   return res.status(StatusCodes.NO_CONTENT).send();
 };
 
-export { getBlog, getAllBlogs, deleteBlog, addBlog };
+const updateBlog = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { author, likes, title, url } = req.body as Blog;
+  blogPropsExistenceValidator(author, title, url);
+  const blog = await ModelBlog.findByIdAndUpdate(
+    id,
+    {
+      title,
+      url,
+      author,
+      likes: likes || 0,
+    },
+    { runValidators: true }
+  );
+  if (!blog) throw new NotFoundError("Unable to find blog");
+  return res.status(StatusCodes.OK).send();
+};
+
+export { getBlog, getAllBlogs, deleteBlog, addBlog, updateBlog };

@@ -7,7 +7,7 @@
     "globalTeardown": "./src/tests/teardown.ts"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "build": "npx tsc",
     "start": "cross-env NODE_ENV=production node dist/index.js"

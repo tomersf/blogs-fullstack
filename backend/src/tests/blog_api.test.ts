@@ -82,6 +82,28 @@ describe("when making a POST req to blogs", () => {
   });
 });
 
+describe("when doing a PUT req to blogs", () => {
+  const initialBlog = DBHelper.initialBlogs[0];
+  test("blog is getting updated", async () => {
+    const blog = await ModelBlog.findOne({
+      author: initialBlog.author,
+      title: initialBlog.title,
+    });
+    if (!blog) fail("Unable to find initial blog");
+    blog.title = blog.title + "updated";
+    await api
+      .put(`${DBHelper.API_ROUTES.BLOGS}${blog._id}`)
+      .send(blog.toJSON())
+      .expect(StatusCodes.OK);
+
+    const updatedBlog = await api.get(
+      `${DBHelper.API_ROUTES.BLOGS}${blog._id}`
+    );
+
+    expect(updatedBlog.body).toEqual(blog.toJSON());
+  });
+});
+
 afterAll(async () => {
   await closeTestDatabase();
 });

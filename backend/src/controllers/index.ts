@@ -1,5 +1,5 @@
 import { addPerson, deletePerson, getAllPersons, getPerson } from "./person";
-import { addBlog, deleteBlog, getAllBlogs, getBlog } from "./blog";
+import { addBlog, deleteBlog, getAllBlogs, getBlog, updateBlog } from "./blog";
 
 export {
   addPerson,
@@ -10,4 +10,5 @@ export {
   deleteBlog,
   getAllBlogs,
   getBlog,
+  updateBlog,
 };

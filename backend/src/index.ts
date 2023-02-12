@@ -34,9 +34,11 @@ const port = appConfig.PORT;
 const start = async () => {
   try {
     await connectDB();
-    app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
-    );
+    if (!appConfig.isTest) {
+      app.listen(port, () =>
+        console.log(`Server is listening on port ${port}...`)
+      );
+    }
   } catch (error) {
     console.error(error);
   }
