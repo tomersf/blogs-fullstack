@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { Blog } from "../interfaces";
+import { Blog, JWTPayload } from "../interfaces";
 import { BadRequestError, NotFoundError } from "../errors";
 import ModelBlog from "../models/Blog";
 import ModelUser from "../models/User";
+import { validateToken } from "../helpers";
 
 const blogPropsExistenceValidator = (
   author: string,
@@ -20,10 +21,10 @@ const getAllBlogs = async (req: Request, res: Response) => {
 };
 
 const addBlog = async (req: Request, res: Response) => {
-  const { author, likes, title, url, userID } = req.body;
+  const { author, likes, title, url } = req.body;
   blogPropsExistenceValidator(author, title, url);
-
-  const user = await ModelUser.findById(userID);
+  const decodedUserID = validateToken(req, res);
+  const user = await ModelUser.findById(decodedUserID);
   if (!user) throw new BadRequestError("Cant add blog to non existing user");
 
   const existingBlog = await ModelBlog.findOne({
@@ -31,7 +32,7 @@ const addBlog = async (req: Request, res: Response) => {
     title,
     url,
     likes,
-    user: userID,
+    user: decodedUserID,
   });
 
   if (existingBlog) throw new BadRequestError("Blog already exists");
@@ -40,7 +41,7 @@ const addBlog = async (req: Request, res: Response) => {
     title,
     url,
     likes,
-    user: user._id,
+    user: decodedUserID,
   });
 
   user.blogs = user.blogs.concat(newBlog._id);

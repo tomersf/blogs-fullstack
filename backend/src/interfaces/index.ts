@@ -15,4 +15,9 @@ type User = {
   passwordHash: string;
 };
 
-export type { Blog, User };
+type JWTPayload = {
+  username: string;
+  id: string;
+};
+
+export type { Blog, User, JWTPayload };

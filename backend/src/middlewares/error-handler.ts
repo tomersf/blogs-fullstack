@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction, Errback } from "express";
 import { CustomAPIError, NotFoundError } from "../errors";
-import { MONGODB_ERROR_NAMES } from "../helpers";
+import { JWT_ERROR_NAMES, MONGODB_ERROR_NAMES } from "../helpers";
 function errorHandlerMiddleware<T extends CustomAPIError | Error>(
   err: T,
   req: Request,
@@ -22,6 +22,15 @@ function errorHandlerMiddleware<T extends CustomAPIError | Error>(
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ msg: "Validations failed" });
+
+    case JWT_ERROR_NAMES.JsonWebTokenError:
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ msg: "invalid token" });
+    case JWT_ERROR_NAMES.TokenExpiredError:
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ msg: "token expired" });
 
     default:
       return res

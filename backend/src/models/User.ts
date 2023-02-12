@@ -1,6 +1,9 @@
 import mongoose, { Schema, model } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import { User } from "../interfaces";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import appConfig from "../config";
 
 const userSchema = new Schema<User>({
   name: {
@@ -33,4 +36,5 @@ userSchema.set("toJSON", {
     delete returnedObject.passwordHash;
   },
 });
+
 export default model<User>("User", userSchema);

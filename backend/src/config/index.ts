@@ -7,6 +7,7 @@ const MONGODB_URI =
 const isDev = process.env.NODE_ENV === "development" ? true : false;
 const isTest = process.env.NODE_ENV === "test" ? true : false;
 const isProd = process.env.NODE_ENV === "production" ? true : false;
+const JWT_SECRET = process.env.JWT_SECRET || "simplesecret";
 
 const appConfig = {
   PORT,
@@ -14,6 +15,7 @@ const appConfig = {
   isDev,
   isTest,
   isProd,
+  JWT_SECRET,
 };
 
 export default appConfig;
