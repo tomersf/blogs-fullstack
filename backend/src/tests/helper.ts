@@ -1,5 +1,6 @@
 import { Blog, Person } from "../interfaces";
 import ModelPerson from "../models/Person";
+import ModelBlog from "../models/Blog";
 
 enum API_ROUTES {
   PERSONS = "/api/persons/",
@@ -65,6 +66,11 @@ const personsInDB = async () => {
   return persons.map((person) => person.toJSON());
 };
 
+const blogsInDB = async () => {
+  const blogs = await ModelBlog.find({});
+  return blogs.map((blog) => blog.toJSON());
+};
+
 const nonExistingId = async () => {
   const person = new ModelPerson({
     name: "Simple Test",
@@ -81,4 +87,5 @@ export default {
   personsInDB,
   nonExistingId,
   initialBlogs,
+  blogsInDB,
 };

@@ -49,3 +49,10 @@ describe("total blogs", () => {
     });
   });
 });
+
+describe("when a blog is returned from database", () => {
+  test("it has an id field", async () => {
+    const blogs = await DBHelper.blogsInDB();
+    expect(blogs[0]).toHaveProperty("id");
+  });
+});
