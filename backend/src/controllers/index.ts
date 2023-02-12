@@ -1,11 +1,11 @@
-import { addPerson, deletePerson, getAllPersons, getPerson } from "./person";
+import { addUser, deleteUser, getAllUsers, getUser } from "./user";
 import { addBlog, deleteBlog, getAllBlogs, getBlog, updateBlog } from "./blog";
 
 export {
-  addPerson,
-  deletePerson,
-  getAllPersons,
-  getPerson,
+  addUser,
+  deleteUser,
+  getAllUsers,
+  getUser,
   addBlog,
   deleteBlog,
   getAllBlogs,

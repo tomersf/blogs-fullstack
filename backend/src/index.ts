@@ -8,7 +8,7 @@ import {
   notFoundMiddleware,
   errorHandlerMiddleware,
 } from "./middlewares";
-import { personsRouter, blogsRouter } from "./routes";
+import { usersRouter, blogsRouter } from "./routes";
 import appConfig from "./config";
 
 const app = express();
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.static("build"));
 app.use(morganMiddleware);
 
-app.use("/api/persons", personsRouter);
+app.use("/api/users", usersRouter);
 app.use("/api/blogs", blogsRouter);
 
 app.use(notFoundMiddleware);

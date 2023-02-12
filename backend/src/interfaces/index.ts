@@ -1,15 +1,18 @@
+import { Types } from "mongoose";
+
 type Blog = {
   title: string;
   author: string;
   url: string;
   likes: number;
+  user: Types.ObjectId;
 };
 
-type Person = {
+type User = {
+  username: string;
   name: string;
-  blogs: Blog[];
-  password: string;
-  email: string;
+  blogs: Types.ObjectId[];
+  passwordHash: string;
 };
 
-export type { Blog, Person };
+export type { Blog, User };

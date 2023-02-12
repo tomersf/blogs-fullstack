@@ -1,4 +1,4 @@
-import { Schema, model, connect } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import { Blog } from "../interfaces";
 
 const blogSchema = new Schema<Blog>({
@@ -28,6 +28,10 @@ const blogSchema = new Schema<Blog>({
       message: (props) => `${props.value} is not a valid URL!`,
     },
     required: [true, "Must enter a blog url"],
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

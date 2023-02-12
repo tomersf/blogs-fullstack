@@ -1,24 +1,24 @@
-import { Blog, Person } from "../interfaces";
-import ModelPerson from "../models/Person";
+import { Blog, User } from "../interfaces";
+import ModelUser from "../models/User";
 import ModelBlog from "../models/Blog";
 
 enum API_ROUTES {
-  PERSONS = "/api/persons/",
+  USERS = "/api/users/",
   BLOGS = "/api/blogs/",
 }
 
-const initialPersons: Person[] = [
+const initialUsers: User[] = [
   {
     name: "Tomer",
-    email: "tom@12.com",
-    password: "testPass",
+    passwordHash: "testPass",
     blogs: [],
+    username: "tomer",
   },
   {
-    name: "Tomer",
-    email: "tom@12.com",
-    password: "testPass",
+    name: "Lisa",
+    passwordHash: "testPass1",
     blogs: [],
+    username: "lisaa",
   },
 ];
 
@@ -61,31 +61,37 @@ const initialBlogs: Blog[] = [
   },
 ];
 
-const personsInDB = async () => {
-  const persons = await ModelPerson.find({});
-  return persons.map((person) => person.toJSON());
+type UserWithID = User & { id: string };
+
+const usersInDb = async (): Promise<UserWithID[]> => {
+  const users = await ModelUser.find({});
+  return users.map((u) => u.toJSON());
 };
 
-const blogsInDB = async () => {
+type BlogWithID = Blog & { id: string };
+
+const blogsInDB = async (): Promise<BlogWithID[]> => {
   const blogs = await ModelBlog.find({});
   return blogs.map((blog) => blog.toJSON());
 };
 
-const nonExistingId = async () => {
-  const person = new ModelPerson({
-    name: "Simple Test",
-    number: "000-0000000",
+const nonExistingUserID = async () => {
+  const user = new ModelUser({
+    blogs: [],
+    name: "test",
+    passwordHash: "testpass",
+    username: "testtest",
   });
-  await person.save();
-  await person.remove();
-  return person._id.toString();
+  await user.save();
+  await user.remove();
+  return user._id.toString();
 };
 
 export default {
-  initialPersons,
+  initialUsers,
   API_ROUTES,
-  personsInDB,
-  nonExistingId,
+  usersInDb,
+  nonExistingUserID,
   initialBlogs,
   blogsInDB,
 };
