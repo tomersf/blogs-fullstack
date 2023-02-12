@@ -91,6 +91,26 @@ describe("addition of a new user", () => {
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(helper.initialUsers.length);
   });
+
+  test("creation fails with proper statuscode and message if username already taken", async () => {
+    const usersAtStart = await helper.usersInDb();
+    const newUser = {
+      username: "tomer",
+      name: "Superuser",
+      password: "super",
+    };
+
+    const result = await api
+      .post(helper.API_ROUTES.USERS)
+      .send(newUser)
+      .expect(StatusCodes.BAD_REQUEST)
+      .expect("Content-Type", /application\/json/);
+
+    expect(result.body.msg).toContain("Username already exists");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toEqual(usersAtStart);
+  });
 });
 
 describe("deletion of a user", () => {

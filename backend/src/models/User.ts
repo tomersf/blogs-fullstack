@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 import { User } from "../interfaces";
 
 const userSchema = new Schema<User>({
@@ -11,6 +12,7 @@ const userSchema = new Schema<User>({
     type: String,
     required: [true, "Name must be at least 3 chars long"],
     minlength: 3,
+    unique: true,
   },
   passwordHash: String,
   blogs: [
@@ -20,6 +22,8 @@ const userSchema = new Schema<User>({
     },
   ],
 });
+
+userSchema.plugin(uniqueValidator);
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {

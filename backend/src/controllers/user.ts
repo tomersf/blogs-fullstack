@@ -6,7 +6,7 @@ import ModelUser from "../models/User";
 import bcrypt from "bcrypt";
 
 const getAllUsers = async (req: Request, res: Response) => {
-  const users = await ModelUser.find({});
+  const users = await ModelUser.find({}).populate("blogs");
   return res.status(StatusCodes.OK).send(users);
 };
 
@@ -34,7 +34,7 @@ const addUser = async (req: Request, res: Response) => {
 
 const getUser = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const user = await ModelUser.findOne({ _id: id });
+  const user = await ModelUser.findOne({ _id: id }).populate("blogs");
   if (!user) throw new NotFoundError("Unable to find user");
 
   return res.status(StatusCodes.OK).json(user);
