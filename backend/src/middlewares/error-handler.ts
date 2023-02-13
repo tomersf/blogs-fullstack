@@ -17,11 +17,11 @@ function errorHandlerMiddleware<T extends CustomAPIError | Error>(
     case MONGODB_ERROR_NAMES.CastError:
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ msg: "Invalid ID was given" });
+        .json({ msg: "invalid ID was given" });
     case MONGODB_ERROR_NAMES.ValidationError:
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ msg: "Validations failed" });
+        .json({ msg: "validations failed" });
 
     case JWT_ERROR_NAMES.JsonWebTokenError:
       return res

@@ -4,9 +4,6 @@ import ModelUser from "../models/User";
 import app from "..";
 import { StatusCodes } from "http-status-codes";
 import helper from "./helper";
-import { User } from "../interfaces";
-import bcrypt from "bcrypt";
-
 const api = supertest(app);
 
 beforeEach(async () => {

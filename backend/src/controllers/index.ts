@@ -1,9 +1,8 @@
-import { addUser, deleteUser, getAllUsers, getUser } from "./user";
+import { deleteUser, getAllUsers, getUser } from "./user";
 import { addBlog, deleteBlog, getAllBlogs, getBlog, updateBlog } from "./blog";
-import { loginUser } from "./login";
+import { loginUser, registerUser } from "./auth";
 
 export {
-  addUser,
   deleteUser,
   getAllUsers,
   getUser,
@@ -13,4 +12,5 @@ export {
   getBlog,
   updateBlog,
   loginUser,
+  registerUser,
 };

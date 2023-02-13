@@ -8,7 +8,7 @@ import {
   notFoundMiddleware,
   errorHandlerMiddleware,
 } from "./middlewares";
-import { usersRouter, blogsRouter, loginRouter } from "./routes";
+import { usersRouter, blogsRouter, authRouter } from "./routes";
 import appConfig from "./config";
 import authenticateUser from "./middlewares/authentications";
 
@@ -23,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("build"));
 app.use(morganMiddleware);
-app.use("/api/login", loginRouter);
+app.use("/api/auth", authRouter);
 
 app.use(authenticateUser);
 app.use("/api/users", usersRouter);

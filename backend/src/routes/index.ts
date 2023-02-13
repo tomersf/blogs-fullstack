@@ -1,5 +1,5 @@
 import usersRouter from "./users";
 import blogsRouter from "./blogs";
-import loginRouter from "./login";
+import authRouter from "./auth";
 
-export { usersRouter, blogsRouter, loginRouter };
+export { usersRouter, blogsRouter, authRouter };

@@ -23,7 +23,7 @@ const getAllBlogs = async (req: Request, res: Response) => {
 const addBlog = async (req: Request, res: Response) => {
   const { author, likes, title, url } = req.body;
   blogPropsExistenceValidator(author, title, url);
-  const decodedUserID = validateToken(req, res);
+  const decodedUserID = req.user.userID;
   const user = await ModelUser.findById(decodedUserID);
   if (!user) throw new BadRequestError("Cant add blog to non existing user");
 
@@ -59,7 +59,11 @@ const getBlog = async (req: Request, res: Response) => {
 
 const deleteBlog = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const blog = await ModelBlog.findByIdAndRemove({ _id: id });
+  const decodedUserID = req.user.userID;
+  const blog = await ModelBlog.findByIdAndRemove({
+    _id: id,
+    user: decodedUserID,
+  });
   if (!blog) throw new NotFoundError("Unable to find blog");
   return res.status(StatusCodes.NO_CONTENT).send();
 };
