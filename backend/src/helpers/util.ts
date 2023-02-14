@@ -15,8 +15,20 @@ enum JWT_ERROR_NAMES {
   "TokenExpiredError" = "TokenExpiredError",
 }
 
+const generateToken = (username: string, id: string) => {
+  const userForToken: JWTPayload = {
+    username,
+    id,
+  };
+
+  const token = jwt.sign(userForToken, appConfig.JWT_SECRET, {
+    expiresIn: 60 * 60,
+  });
+  return token;
+};
+
 const getTokenFrom = (request: Request) => {
-  const authorization = request.get("authorization");
+  const authorization = request.get("Authorization");
   if (authorization && authorization.startsWith("Bearer ")) {
     return authorization.replace("Bearer ", "");
   }
@@ -41,4 +53,4 @@ const validateToken = (req: Request, res: Response) => {
   return decodedToken.id;
 };
 
-export { MONGODB_ERROR_NAMES, JWT_ERROR_NAMES, validateToken };
+export { MONGODB_ERROR_NAMES, JWT_ERROR_NAMES, validateToken, generateToken };

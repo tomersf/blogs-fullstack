@@ -1,5 +1,10 @@
 import { totalLikes, favoriteBlog } from "./blog";
-import { MONGODB_ERROR_NAMES, validateToken, JWT_ERROR_NAMES } from "./util";
+import {
+  MONGODB_ERROR_NAMES,
+  validateToken,
+  JWT_ERROR_NAMES,
+  generateToken,
+} from "./util";
 
 export {
   MONGODB_ERROR_NAMES,
@@ -7,4 +12,5 @@ export {
   favoriteBlog,
   validateToken,
   JWT_ERROR_NAMES,
+  generateToken,
 };

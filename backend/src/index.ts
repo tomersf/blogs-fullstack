@@ -10,7 +10,6 @@ import {
 } from "./middlewares";
 import { usersRouter, blogsRouter, authRouter } from "./routes";
 import appConfig from "./config";
-import authenticateUser from "./middlewares/authentications";
 
 const app = express();
 app.use(
@@ -25,7 +24,6 @@ app.use(express.static("build"));
 app.use(morganMiddleware);
 app.use("/api/auth", authRouter);
 
-app.use(authenticateUser);
 app.use("/api/users", usersRouter);
 app.use("/api/blogs", blogsRouter);
 

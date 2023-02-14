@@ -2,6 +2,7 @@ import { totalLikes, favoriteBlog } from "../helpers";
 import { authorWithMostBlogs, authorWithMostLikes } from "../helpers/blog";
 import { Blog } from "../interfaces";
 import DBHelper from "./helper";
+import ModelBlog from "../models/Blog";
 
 describe("total likes", () => {
   const listWithOneBlog: Blog[] = [
@@ -10,6 +11,8 @@ describe("total likes", () => {
       author: "Edsger W. Dijkstra",
       url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
       likes: 5,
+      user: "123",
+      id: 1,
     },
   ];
 
@@ -47,12 +50,5 @@ describe("total blogs", () => {
       author: "Robert C. Martin",
       blogs: 3,
     });
-  });
-});
-
-describe("when a blog is returned from database", () => {
-  test("it has an id field", async () => {
-    const blogs = await DBHelper.blogsInDB();
-    expect(blogs[0]).toHaveProperty("id");
   });
 });

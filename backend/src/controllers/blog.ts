@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { Blog, JWTPayload } from "../interfaces";
+import { Blog } from "../interfaces";
 import { BadRequestError, NotFoundError } from "../errors";
 import ModelBlog from "../models/Blog";
 import ModelUser from "../models/User";
@@ -23,6 +23,7 @@ const getAllBlogs = async (req: Request, res: Response) => {
 const addBlog = async (req: Request, res: Response) => {
   const { author, likes, title, url } = req.body;
   blogPropsExistenceValidator(author, title, url);
+  console.log(req.user);
   const decodedUserID = req.user.userID;
   const user = await ModelUser.findById(decodedUserID);
   if (!user) throw new BadRequestError("Cant add blog to non existing user");
@@ -80,10 +81,10 @@ const updateBlog = async (req: Request, res: Response) => {
       author,
       likes: likes || 0,
     },
-    { runValidators: true }
+    { runValidators: true, new: true }
   );
   if (!blog) throw new NotFoundError("Unable to find blog");
-  return res.status(StatusCodes.OK).send();
+  return res.status(StatusCodes.OK).json(blog);
 };
 
 export { getBlog, getAllBlogs, deleteBlog, addBlog, updateBlog };

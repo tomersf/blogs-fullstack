@@ -7,6 +7,17 @@ import { Blog } from "../interfaces";
 import { closeTestDatabase } from "../db/testdb-handler";
 
 const api = supertest(app);
+const generatedUser = {
+  userID: "",
+  token: "",
+};
+
+beforeAll(async () => {
+  const [userID, token] = await DBHelper.generateFakeUser();
+  DBHelper.updateIdForInitialBlogs(userID);
+  generatedUser.token = token;
+  generatedUser.userID = userID;
+});
 
 beforeEach(async () => {
   await ModelBlog.deleteMany({});
@@ -29,21 +40,27 @@ describe("when there is initially some blogs saved", () => {
 });
 
 describe("when making a POST req to blogs", () => {
+  console.log("");
   const newBlog: Blog = {
     author: "Test Jest",
     likes: 20,
     title: "Jest is awesome",
     url: "www.jest.com",
+    user: generatedUser.userID,
   };
   test("return status code and content type are valid", async () => {
     await api
       .post(DBHelper.API_ROUTES.BLOGS)
+      .set("Authorization", "Bearer " + generatedUser.token)
       .send(newBlog)
       .expect(StatusCodes.CREATED)
       .expect("Content-Type", /application\/json/);
   });
   test("a new blog is inserted into db", async () => {
-    await api.post(DBHelper.API_ROUTES.BLOGS).send(newBlog);
+    await api
+      .post(DBHelper.API_ROUTES.BLOGS)
+      .send(newBlog)
+      .set("Authorization", "Bearer " + generatedUser.token);
     const initialBlogs = DBHelper.initialBlogs;
     const blogsInDB = await DBHelper.blogsInDB();
 
@@ -57,8 +74,12 @@ describe("when making a POST req to blogs", () => {
       author: newBlog.author,
       title: newBlog.title,
       url: newBlog.url,
+      user: generatedUser.userID,
     };
-    await api.post(DBHelper.API_ROUTES.BLOGS).send(blogWithoutLikes);
+    await api
+      .post(DBHelper.API_ROUTES.BLOGS)
+      .send(blogWithoutLikes)
+      .set("Authorization", "Bearer " + generatedUser.token);
     const blogsInDB = await DBHelper.blogsInDB();
     const contents = blogsInDB.map((blog) => {
       return { title: blog.title, likes: blog.likes };
@@ -73,10 +94,12 @@ describe("when making a POST req to blogs", () => {
     const blogWithoutURLandTitle: Omit<Blog, "url" | "title"> = {
       author: newBlog.author,
       likes: 5,
+      user: generatedUser.userID,
     };
     await api
       .post(DBHelper.API_ROUTES.BLOGS)
       .send(blogWithoutURLandTitle)
+      .set("Authorization", "Bearer " + generatedUser.token)
       .expect(StatusCodes.BAD_REQUEST)
       .expect("Content-Type", /application\/json/);
   });
@@ -94,6 +117,7 @@ describe("when doing a PUT req to blogs", () => {
     await api
       .put(`${DBHelper.API_ROUTES.BLOGS}${blog._id}`)
       .send(blog.toJSON())
+      .set("Authorization", "Bearer " + generatedUser.token)
       .expect(StatusCodes.OK);
 
     const updatedBlog = await api.get(
