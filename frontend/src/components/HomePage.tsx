@@ -1,12 +1,17 @@
 import { User } from "@tomersf/blog.shared";
 import React from "react";
+import HText from "./HText";
 
 type Props = {
-  user: User;
+  user: string;
 };
 
 const HomePage = ({ user }: Props) => {
-  return <div>Welcome {user.username}</div>;
+  return (
+    <div className="flex items-center justify-center">
+      <HText>Welcome {user}</HText>
+    </div>
+  );
 };
 
 export default HomePage;

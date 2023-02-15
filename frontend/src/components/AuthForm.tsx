@@ -1,4 +1,3 @@
-import { User } from "@tomersf/blog.shared";
 import { Dispatch, SetStateAction, useState } from "react";
 import authService from "../services/auth";
 import ActionButton from "./ActionButton";
@@ -6,7 +5,7 @@ import InputButton from "./InputButton";
 import Message from "./Message";
 
 type Props = {
-  setUser: Dispatch<SetStateAction<User | undefined>>;
+  setUser: Dispatch<SetStateAction<string>>;
   setToken: Dispatch<SetStateAction<string>>;
 };
 
@@ -14,7 +13,6 @@ const AuthForm = ({ setUser, setToken }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(true);
-  const [validCreds, setValidCreds] = useState(false);
   const [message, setMessage] = useState("");
 
   const changeAuth = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -38,11 +36,7 @@ const AuthForm = ({ setUser, setToken }: Props) => {
     } else {
       result = await authService.loginUser(username, password);
       if (result.success) {
-        setUser({
-          blogs: [],
-          username: result.data!.username,
-          id: result.data!.id,
-        });
+        setUser(result.data!.username);
         setToken(result.data!.token);
         return;
       }
@@ -56,7 +50,7 @@ const AuthForm = ({ setUser, setToken }: Props) => {
     }, 3000);
   }
   return (
-    <div className="flex h-full items-center justify-center">
+    <div className="flex h-auto items-center justify-center">
       <form className=" flex h-2/4 flex-col items-center justify-between gap-6 rounded-lg border-2 border-double border-emerald-600 p-3">
         {message && <Message msg={message} />}
         <h1>{isRegistering ? "Register Form" : "Login Form"}</h1>

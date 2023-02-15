@@ -13,15 +13,11 @@ const ActionButton = ({ children, handleOnClick, extraStyles }: Props) => {
   const isDarkTheme = useContext(ThemeContext);
   return (
     <button
-      className={
-        extraStyles +
-        " " +
-        `rounded-md px-10 py-2 hover:text-white ${
-          isDarkTheme
-            ? "bg-secondary-dark-400 hover:bg-primary-dark-100"
-            : "bg-secondary-light-500 hover:bg-primary-light-500"
-        }`
-      }
+      className={`${extraStyles} rounded-md px-10 py-2 hover:text-white ${
+        isDarkTheme
+          ? "bg-primary-light hover:bg-secondary-light"
+          : "bg-primary-dark hover:bg-secondary-dark"
+      }`}
       onClick={(e) => handleOnClick(e)}
     >
       {children}
