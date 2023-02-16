@@ -16,8 +16,10 @@ const AuthForm = ({ setUser, setToken }: Props) => {
   const [message, setMessage] = useState("");
 
   const changeAuth = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setMessage("");
     e.preventDefault();
+    setMessage("");
+    setUsername("");
+    setPassword("");
     setIsRegistering((oldValue) => !oldValue);
   };
 
@@ -65,6 +67,7 @@ const AuthForm = ({ setUser, setToken }: Props) => {
             extraStyles="text-black"
             placeholder="Enter Password"
             type="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>

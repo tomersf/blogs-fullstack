@@ -11,7 +11,7 @@ const ColorTheme = ({ onClick }: Props) => {
   const darkMode = useContext(ThemeContext);
 
   return (
-    <ActionButton extraStyles="mx-4 my-4" handleOnClick={onClick}>
+    <ActionButton handleOnClick={onClick}>
       {darkMode ? (
         <SunIcon className="w-6 text-white" />
       ) : (
