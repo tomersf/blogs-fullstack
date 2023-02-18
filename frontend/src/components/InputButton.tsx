@@ -17,7 +17,9 @@ const InputButton = ({
   extraStyles,
 }: Props) => {
   const isDarkTheme = useContext(ThemeContext);
-  let inputStyles = isDarkTheme ? "bg-primary-300" : "bg-secondary-light-500";
+  let inputStyles = isDarkTheme.isDark
+    ? "bg-primary-300"
+    : "bg-secondary-light-500";
   inputStyles += " mb-5 w-full rounded-lg px-5 py-3";
   return (
     <input

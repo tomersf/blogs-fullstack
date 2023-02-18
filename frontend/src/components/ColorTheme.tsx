@@ -3,16 +3,18 @@ import ActionButton from "./ActionButton";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import ThemeContext from "../context/theme";
 
-type Props = {
-  onClick: () => void;
-};
+type Props = {};
 
-const ColorTheme = ({ onClick }: Props) => {
+const ColorTheme = ({}: Props) => {
   const darkMode = useContext(ThemeContext);
 
+  const changeThemeHandler = () => {
+    darkMode.toggleDark();
+  };
+
   return (
-    <ActionButton handleOnClick={onClick}>
-      {darkMode ? (
+    <ActionButton handleOnClick={changeThemeHandler}>
+      {darkMode.isDark ? (
         <SunIcon className="w-6 text-white" />
       ) : (
         <MoonIcon className="w-6 text-white" />

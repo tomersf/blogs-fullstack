@@ -2,11 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
 html,
 body,
 #root,
 .app {
-  height: 100%;
   width: 100%;
-  font-family: "DM Sans", sans-serif;
+  height: 100%;
+  font-family: "Ubuntu", sans-serif;
 }

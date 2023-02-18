@@ -6,9 +6,10 @@ import UserMenu from "./UserMenu";
 
 type Props = {
   user: string;
+  signOut: () => void;
 };
 
-const HomePage = ({ user }: Props) => {
+const HomePage = ({ user, signOut }: Props) => {
   return (
     <div className="flex h-full w-full flex-col items-center gap-32">
       <div>
