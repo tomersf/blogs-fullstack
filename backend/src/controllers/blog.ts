@@ -4,7 +4,6 @@ import { Blog } from "../interfaces";
 import { BadRequestError, NotFoundError } from "../errors";
 import ModelBlog from "../models/Blog";
 import ModelUser from "../models/User";
-import { validateToken } from "../helpers";
 
 const blogPropsExistenceValidator = (
   author: string,
@@ -16,7 +15,7 @@ const blogPropsExistenceValidator = (
 };
 
 const getAllBlogs = async (req: Request, res: Response) => {
-  const blogs = await ModelBlog.find({}).populate("user", { name: 1 });
+  const blogs = await ModelBlog.find({}).populate("user");
   return res.status(StatusCodes.OK).send(blogs);
 };
 

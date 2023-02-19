@@ -1,4 +1,4 @@
-import { Blog} from "@tomersf/blog.shared";
+import { Blog as IBlog } from "@tomersf/blog.shared";
 
 type Props = {
   blog: IBlog;

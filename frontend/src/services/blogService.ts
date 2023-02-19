@@ -3,9 +3,9 @@ import axios from "axios";
 import config from "../config";
 import authService from "./authService";
 
-const getAll = (): Promise<Blog[]> => {
-  const request = axios.get(config.blogsUrl);
-  return request.then((response) => response.data);
+const getAll = async (): Promise<Blog[]> => {
+  const response = await axios.get(config.blogsUrl);
+  return response.data;
 };
 
 const createBlog = async (title: string, author: string, url: string) => {
