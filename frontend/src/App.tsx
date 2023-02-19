@@ -9,23 +9,24 @@ import ActionButton from "./components/ActionButton";
 
 const App = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
-  const [user, setUser] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [user, setUser] = useState("");
 
   useEffect(() => {
-    const blogUserData = window.localStorage.getItem("blogData");
-    if (blogUserData) {
-      const data = JSON.parse(blogUserData);
-      setUser(data.username);
-      authService.setToken(data.token);
+    const { isExpired, username } = authService.parseToken();
+    if (isExpired) {
+      signOut();
     }
+    setUser(username);
+    setLoggedIn(true);
   }, []);
 
   const signOut = () => {
-    localStorage.removeItem("blogData");
+    authService.removeToken();
     setUser("");
-    authService.setToken("");
     setBlogs([]);
+    setLoggedIn(false);
   };
 
   return (
@@ -37,7 +38,7 @@ const App = () => {
         }}
       >
         <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
-          {user ? (
+          {loggedIn ? (
             <div className="flex h-full w-full">
               <div className="mt-5 flex w-full px-5">
                 <ColorTheme />
@@ -48,7 +49,7 @@ const App = () => {
           ) : (
             <div>
               <ColorTheme />
-              <AuthPage setUser={setUser} />
+              <AuthPage setLoggedIn={setLoggedIn} />
             </div>
           )}
         </div>

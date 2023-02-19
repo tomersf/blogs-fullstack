@@ -21,4 +21,11 @@ type JWTPayload = {
   id: string;
 };
 
-export type { Blog, User, JWTPayload };
+type DecodedTokenPayload = {
+  exp: number;
+  iat: number;
+  id: string;
+  username: string;
+};
+
+export type { Blog, User, JWTPayload, DecodedTokenPayload };

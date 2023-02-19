@@ -7,10 +7,10 @@ import ThemeContext from "../context/theme";
 import FormButton from "./FormButton";
 
 type Props = {
-  setUser: Dispatch<SetStateAction<string>>;
+  setLoggedIn: Dispatch<SetStateAction<boolean>>;
 };
 
-const AuthPage = ({ setUser }: Props) => {
+const AuthPage = ({ setLoggedIn }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(true);
@@ -43,8 +43,8 @@ const AuthPage = ({ setUser }: Props) => {
     } else {
       result = await authService.loginUser(username, password);
       if (result.success) {
-        setUser(result.data!.username);
-        authService.setToken(result.data!.token);
+        authService.setToken(result.token!);
+        setLoggedIn(true);
         return;
       }
     }

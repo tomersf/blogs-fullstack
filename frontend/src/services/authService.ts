@@ -1,7 +1,8 @@
-import { User } from "@tomersf/blog.shared";
 import axios, { HttpStatusCode } from "axios";
 import config from "../config";
 import { LoginPayload } from "../interfaces";
+import jwtDecode from "jwt-decode";
+import { DecodedTokenPayload } from "@tomersf/blog.shared";
 
 let userToken = "";
 
@@ -39,18 +40,10 @@ const loginUser = async (
       password,
     });
     if (res.status == HttpStatusCode.Ok) {
-      window.localStorage.setItem(
-        "blogData",
-        JSON.stringify({ token: res.data.token, username: res.data.username })
-      );
+      window.localStorage.setItem("token", JSON.stringify(res.data.token));
       return {
         success: true,
-        data: {
-          username: res.data.username,
-          blogs: [],
-          id: res.data.id,
-          token: res.data.token,
-        },
+        token: res.data.token,
       };
     } else {
       return {
@@ -68,4 +61,29 @@ const setToken = (token: string) => {
 };
 const getToken = () => userToken;
 
-export default { registerUser, loginUser, setToken, getToken };
+const removeToken = () => {
+  localStorage.removeItem("token");
+};
+
+const parseToken = (): { isExpired: boolean; username: string } => {
+  const savedToken = localStorage.getItem("token");
+  if (savedToken) {
+    const token = JSON.parse(savedToken);
+    const decodedToken = jwtDecode(token) as DecodedTokenPayload;
+    const expirationDate = new Date(decodedToken.exp * 1000);
+    const isExpired = expirationDate < new Date();
+    if (isExpired) {
+      return { isExpired: true, username: "" };
+    }
+    return { isExpired: false, username: decodedToken.username };
+  }
+  return { isExpired: true, username: "" };
+};
+export default {
+  registerUser,
+  loginUser,
+  setToken,
+  getToken,
+  removeToken,
+  parseToken,
+};

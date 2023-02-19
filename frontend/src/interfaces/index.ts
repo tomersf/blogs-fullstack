@@ -1,9 +1,8 @@
-import { User } from "@tomersf/blog.shared"
-
+import { User } from "@tomersf/blog.shared";
 
 interface LoginPayload {
-    success: boolean
-    data? : Omit<User, 'passwordHash'> & {token: string}
+  success: boolean;
+  token?: string;
 }
 
-export type {LoginPayload}
+export type { LoginPayload };

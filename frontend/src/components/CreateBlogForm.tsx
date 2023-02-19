@@ -15,7 +15,6 @@ const CreateBlogForm = (props: Props) => {
 
   const createBlog = async () => {
     const response = await blogService.createBlog(title, author, url);
-    console.log(response);
   };
 
   return (

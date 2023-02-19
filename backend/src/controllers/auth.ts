@@ -19,8 +19,7 @@ const loginUser = async (req: Request, res: Response) => {
   }
 
   const token = generateToken(user.username, user._id.toString());
-
-  res.status(StatusCodes.OK).send({ token, username, id: user._id.toString() });
+  res.status(StatusCodes.OK).send({ token });
 };
 
 const registerUser = async (req: Request, res: Response) => {

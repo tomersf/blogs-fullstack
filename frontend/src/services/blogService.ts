@@ -13,7 +13,6 @@ const createBlog = async (title: string, author: string, url: string) => {
     headers: { Authorization: "Bearer " + authService.getToken() },
   };
 
-  console.log(authService.getToken());
   const response = await axios.post(
     config.blogsUrl,
     {
