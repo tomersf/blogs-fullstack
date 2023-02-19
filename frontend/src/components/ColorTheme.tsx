@@ -11,14 +11,31 @@ const ColorTheme = ({}: Props) => {
   const changeThemeHandler = () => {
     darkMode.toggleDark();
   };
+  let styles, content;
+  if (darkMode.isDark) {
+    styles = "flex justify-center items-center w-[100px]";
+    content = <SunIcon className="w-7" />;
+  } else {
+    styles = "flex justify-center items-center w-[100px]";
+    content = <MoonIcon className="w-7" />;
+  }
+  // return (
+  //   <button onClick={() => {}} className="flex w-20 justify-center bg-red-500">
+  //     {darkMode.isDark ? (
+  //       <SunIcon className="w-6 items-center text-white" />
+  //     ) : (
+  //       <MoonIcon className="w-6 items-center text-center" />
+  //     )}
+  //   </button>
+  // );
 
   return (
-    <ActionButton handleOnClick={changeThemeHandler}>
-      {darkMode.isDark ? (
-        <SunIcon className="w-6 text-white" />
-      ) : (
-        <MoonIcon className="w-6 text-white" />
-      )}
+    <ActionButton
+      isFormButton={false}
+      handleOnClick={changeThemeHandler}
+      extraStyles={styles}
+    >
+      {content}
     </ActionButton>
   );
 };

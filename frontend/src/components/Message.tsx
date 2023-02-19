@@ -1,13 +1,12 @@
-import React from 'react'
+import React from "react";
 
 type Props = {
-  msg: string
-}
+  msg: string;
+  extraStyles?: string;
+};
 
-const Message = ({msg}: Props) => {
-  return (
-    <div className='bg-green-700'>{msg}</div>
-  )
-}
+const Message = ({ msg, extraStyles }: Props) => {
+  return <div className={extraStyles}>{msg}</div>;
+};
 
-export default Message
+export default Message;

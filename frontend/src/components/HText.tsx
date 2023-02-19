@@ -3,16 +3,23 @@ import ThemeContext from "../context/theme";
 
 type Props = {
   children: React.ReactNode;
+  extraStyles?: string;
 };
 
-function HText({ children }: Props) {
-  const darkTheme = useContext(ThemeContext);
-  if (darkTheme) {
+function HText({ children, extraStyles }: Props) {
+  const theme = useContext(ThemeContext);
+  if (theme.isDark) {
     return (
-      <h1 className="text-4xl font-bold text-primary-light">{children}</h1>
+      <h1 className={`text-4xl font-bold text-primary-light ${extraStyles}`}>
+        {children}
+      </h1>
     );
   } else {
-    return <h1 className="text-4xl font-bold text-primary-dark">{children}</h1>;
+    return (
+      <h1 className={`text-4xl font-bold text-secondary-dark ${extraStyles}`}>
+        {children}
+      </h1>
+    );
   }
 }
 

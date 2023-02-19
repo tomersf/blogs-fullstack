@@ -3,6 +3,8 @@ import axios, { HttpStatusCode } from "axios";
 import config from "../config";
 import { LoginPayload } from "../interfaces";
 
+let userToken = "";
+
 const registerUser = async (
   username: string,
   password: string
@@ -61,4 +63,9 @@ const loginUser = async (
   };
 };
 
-export default { registerUser, loginUser };
+const setToken = (token: string) => {
+  userToken = token;
+};
+const getToken = () => userToken;
+
+export default { registerUser, loginUser, setToken, getToken };

@@ -125,8 +125,20 @@
   transition: 1s;
 }
 
-.is-gx {
-  animation: is-gx 1.25s;
+.show-error {
+  animation: show-err 2s linear;
+}
+
+@keyframes show-err {
+  0% {
+    opacity: 0.75;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .show-register {
@@ -143,6 +155,10 @@
   100% {
     opacity: 1;
   }
+}
+
+.is-gx {
+  animation: is-gx 1.25s;
 }
 
 @keyframes is-gx {

@@ -3,11 +3,13 @@ import { Blog as IBlog } from "@tomersf/blog.shared";
 import HomePage from "./components/HomePage";
 import AuthPage from "./components/AuthPage";
 import ThemeContext from "./context/theme";
+import ColorTheme from "./components/ColorTheme";
+import authService from "./services/authService";
+import ActionButton from "./components/ActionButton";
 
 const App = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
   const [user, setUser] = useState("");
-  const [token, setToken] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -15,14 +17,14 @@ const App = () => {
     if (blogUserData) {
       const data = JSON.parse(blogUserData);
       setUser(data.username);
-      setToken(data.token);
+      authService.setToken(data.token);
     }
   }, []);
 
   const signOut = () => {
     localStorage.removeItem("blogData");
     setUser("");
-    setToken("");
+    authService.setToken("");
     setBlogs([]);
   };
 
@@ -36,9 +38,18 @@ const App = () => {
       >
         <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
           {user ? (
-            <HomePage user={user} signOut={signOut} />
+            <div className="flex h-full w-full">
+              <div className="mt-5 flex w-full px-5">
+                <ColorTheme />
+                <HomePage user={user} />
+                <ActionButton handleOnClick={signOut}>Sign Out</ActionButton>
+              </div>
+            </div>
           ) : (
-            <AuthPage setUser={setUser} setToken={setToken} />
+            <div>
+              <ColorTheme />
+              <AuthPage setUser={setUser} />
+            </div>
           )}
         </div>
       </ThemeContext.Provider>

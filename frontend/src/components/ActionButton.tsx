@@ -40,6 +40,9 @@ const ActionButton = ({
     style = extraStyles
       ? baseStyle + " " + hoverStyle + " " + extraStyles
       : baseStyle + " " + hoverStyle;
+    style = extraStyles
+      ? baseStyle + " " + hoverStyle + " " + extraStyles
+      : baseStyle + " " + hoverStyle;
   }
 
   return (
