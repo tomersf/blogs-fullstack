@@ -11,7 +11,7 @@ const loginUser = async (req: Request, res: Response) => {
   const user = await ModelUser.findOne({ username });
   let passwordCorrect;
   if (user) {
-    passwordCorrect = await bcrypt.compare(password, user.passwordHash);
+    passwordCorrect = await bcrypt.compare(password, user.passwordHash!);
   }
 
   if (!(user && passwordCorrect)) {
@@ -20,14 +20,12 @@ const loginUser = async (req: Request, res: Response) => {
 
   const token = generateToken(user.username, user._id.toString());
 
-  res
-    .status(StatusCodes.OK)
-    .send({ token, username: user.username, name: user.name });
+  res.status(StatusCodes.OK).send({ token, username, id: user._id.toString() });
 };
 
 const registerUser = async (req: Request, res: Response) => {
-  const { username, name, password } = req.body;
-  if (!username || !password || !name)
+  const { username, password } = req.body;
+  if (!username || !password)
     throw new BadRequestError("Please provide name, username and password");
   const existingUser = await ModelUser.findOne({ username });
   if (existingUser) {
@@ -38,7 +36,6 @@ const registerUser = async (req: Request, res: Response) => {
 
   const user: User = {
     username,
-    name,
     passwordHash,
     blogs: [],
   };

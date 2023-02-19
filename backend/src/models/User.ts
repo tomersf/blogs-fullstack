@@ -6,11 +6,6 @@ import jwt from "jsonwebtoken";
 import appConfig from "../config";
 
 const userSchema = new Schema<User>({
-  name: {
-    type: String,
-    required: [true, "Name must be at least 3 chars long"],
-    minlength: 3,
-  },
   username: {
     type: String,
     required: [true, "Name must be at least 3 chars long"],
