@@ -26,7 +26,6 @@ const getAllBlogs = async (req: Request, res: Response) => {
 const addBlog = async (req: Request, res: Response) => {
   const { author, likes, title, url } = req.body;
   blogPropsExistenceValidator(author, title, url);
-  console.log(req.user);
   const decodedUserID = req.user.userID;
   const user = await ModelUser.findById(decodedUserID);
   if (!user) throw new BadRequestError("Cant add blog to non existing user");
@@ -35,7 +34,6 @@ const addBlog = async (req: Request, res: Response) => {
     author,
     title,
     url,
-    likes,
     user: decodedUserID,
   });
 
@@ -90,4 +88,10 @@ const updateBlog = async (req: Request, res: Response) => {
   return res.status(StatusCodes.OK).json(blog);
 };
 
-export { getBlog, getAllBlogs, deleteBlog, addBlog, updateBlog };
+const getUserBlogs = async (req: Request, res: Response) => {
+  const decodedUserID = req.user.userID;
+  const blogs = await ModelBlog.find({ user: decodedUserID });
+  return res.status(StatusCodes.OK).send(blogs);
+};
+
+export { getBlog, getAllBlogs, deleteBlog, addBlog, updateBlog, getUserBlogs };

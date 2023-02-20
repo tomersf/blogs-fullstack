@@ -34,12 +34,12 @@ const UserMenu = (props: Props) => {
         <ActionButton handleOnClick={createBlogHandler}>
           Create Blog
         </ActionButton>
-        <ActionButton handleOnClick={allBlogsHandler}>My Blogs</ActionButton>
-        <ActionButton handleOnClick={myBlogsHandler}>All Blogs</ActionButton>
+        <ActionButton handleOnClick={myBlogsHandler}>My Blogs</ActionButton>
+        <ActionButton handleOnClick={allBlogsHandler}>All Blogs</ActionButton>
       </div>
       {isCreatingBlog ? <CreateBlogForm /> : null}
       {isViewingMyBlogs ? <Blogs all={false} /> : null}
-      {isViewingAllBlogs ? <Blogs /> : null}
+      {isViewingAllBlogs ? <Blogs all={true} /> : null}
     </div>
   );
 };

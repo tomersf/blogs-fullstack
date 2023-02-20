@@ -1,5 +1,12 @@
 import { deleteUser, getAllUsers, getUser } from "./user";
-import { addBlog, deleteBlog, getAllBlogs, getBlog, updateBlog } from "./blog";
+import {
+  addBlog,
+  deleteBlog,
+  getAllBlogs,
+  getBlog,
+  updateBlog,
+  getUserBlogs,
+} from "./blog";
 import { loginUser, registerUser } from "./auth";
 
 export {
@@ -13,4 +20,5 @@ export {
   updateBlog,
   loginUser,
   registerUser,
+  getUserBlogs,
 };

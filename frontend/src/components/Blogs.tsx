@@ -3,24 +3,27 @@ import React, { useEffect, useState } from "react";
 import blogService from "../services/blogService";
 import Blog from "./Blog";
 
-type Props = {};
+type Props = {
+  all: boolean;
+};
 
-const Blogs = () => {
+const Blogs = ({ all }: Props) => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
   const fetchBlogs = async () => {
-    const response = await blogService.getAll();
+    let response;
+    if (all) {
+      response = await blogService.getAll();
+    } else {
+      response = await blogService.getUserBlogs();
+    }
     setBlogs(response);
-    console.log("%j", response[0].user);
-    console.log(response);
-    // NEED TO FIX, NOT GETTING THE POPULATED USER
-    console.log(response[0].user);
   };
   useEffect(() => {
     fetchBlogs();
   }, []);
 
   return (
-    <div className="grid grid-cols-3">
+    <div className="mt-5 grid w-full max-w-sm grid-cols-3 md:max-w-2xl">
       {blogs ? blogs.map((blog) => <Blog key={blog.id} blog={blog} />) : ""}
     </div>
   );
