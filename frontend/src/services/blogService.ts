@@ -1,25 +1,34 @@
-import { Blog } from "@tomersf/blog.shared";
-import axios, { HttpStatusCode } from "axios";
+import { Blog, ErrorType, ReturnedBlog } from "@tomersf/blog.shared";
+import axios from "axios";
 import config from "../config";
-import authService from "./authService";
+import { errorHandler } from "./errorHandler";
 
-const getAll = async (): Promise<Blog[]> => {
-  const response = await axios.get(config.blogsUrl);
-  return response.data;
+const getAll = async (): Promise<ReturnedBlog[] | ErrorType> => {
+  try {
+    const response = await axios.get(config.blogsUrl);
+    return response.data;
+  } catch (err) {
+    return errorHandler(err);
+  }
 };
 
-const getUserBlogs = async (): Promise<Blog[]> => {
-  const requestConfig = {
-    headers: { Authorization: "Bearer " + authService.getToken() },
-  };
-  const response = await axios.get(config.userBlogsUrl, requestConfig);
-  return response.data;
+const getUserBlogs = async (): Promise<ReturnedBlog[] | ErrorType> => {
+  try {
+    const response = await axios.get(
+      config.userBlogsUrl,
+      config.requestConfig()
+    );
+    return response.data;
+  } catch (err) {
+    return errorHandler(err);
+  }
 };
 
-const createBlog = async (title: string, author: string, url: string) => {
-  const requestConfig = {
-    headers: { Authorization: "Bearer " + authService.getToken() },
-  };
+const createBlog = async (
+  title: string,
+  author: string,
+  url: string
+): Promise<Blog | ErrorType> => {
   try {
     const response = await axios.post(
       config.blogsUrl,
@@ -29,22 +38,42 @@ const createBlog = async (title: string, author: string, url: string) => {
         url,
         likes: 0,
       } as Blog,
-      requestConfig
+      config.requestConfig()
     );
-    return response;
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err)) {
-      return {
-        msg: err.response?.data.msg,
-        status: err.response?.status,
-      };
-    } else {
-      return {
-        msg: "Something went wrong",
-        status: HttpStatusCode.InternalServerError,
-      };
-    }
+    return response.data;
+  } catch (err) {
+    return errorHandler(err);
   }
 };
 
-export default { getAll, createBlog, getUserBlogs };
+const updateBlog = async (blog: Blog): Promise<Blog | ErrorType> => {
+  try {
+    const response = await axios.put(
+      `${config.blogsUrl}/${blog.id}`,
+      {
+        author: blog.author,
+        title: blog.title,
+        url: blog.url,
+        likes: blog.likes,
+      } as Blog,
+      config.requestConfig()
+    );
+    return response.data;
+  } catch (err) {
+    return errorHandler(err);
+  }
+};
+
+const deleteBlog = async (id: number) => {
+  try {
+    const response = await axios.delete(
+      `${config.blogsUrl}/${id}`,
+      config.requestConfig()
+    );
+    return response.status;
+  } catch (err) {
+    return errorHandler(err);
+  }
+};
+
+export default { getAll, createBlog, getUserBlogs, updateBlog, deleteBlog };

@@ -43,7 +43,6 @@ const AuthPage = ({ setLoggedIn }: Props) => {
     } else {
       result = await authService.loginUser(username, password);
       if (result.success) {
-        authService.setToken(result.token!);
         setLoggedIn(true);
         return;
       }

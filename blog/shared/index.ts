@@ -9,6 +9,8 @@ type Blog = {
   id?: number;
 };
 
+type ReturnedBlog = Blog & { user: { username: string; id: string } };
+
 type User = {
   username: string;
   blogs: Types.ObjectId[];
@@ -27,6 +29,11 @@ type JWTPayload = {
   id: string;
 };
 
+type ErrorType = {
+  msg: string;
+  status: number;
+};
+
 type DecodedTokenPayload = {
   exp: number;
   iat: number;
@@ -40,4 +47,6 @@ export type {
   JWTPayload,
   DecodedTokenPayload,
   PopulatedOptionalFields,
+  ErrorType,
+  ReturnedBlog,
 };

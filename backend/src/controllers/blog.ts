@@ -90,7 +90,9 @@ const updateBlog = async (req: Request, res: Response) => {
 
 const getUserBlogs = async (req: Request, res: Response) => {
   const decodedUserID = req.user.userID;
-  const blogs = await ModelBlog.find({ user: decodedUserID });
+  const blogs = await ModelBlog.find({ user: decodedUserID }).populate("user", {
+    username: 1,
+  } as PopulatedOptionalFields<User>);
   return res.status(StatusCodes.OK).send(blogs);
 };
 

@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction, Errback } from "express";
-import { CustomAPIError, NotFoundError } from "../errors";
+import { CustomAPIError } from "../errors";
 import { JWT_ERROR_NAMES, MONGODB_ERROR_NAMES } from "../helpers";
 function errorHandlerMiddleware<T extends CustomAPIError | Error>(
   err: T,

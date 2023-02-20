@@ -3,6 +3,7 @@ import { Blog as IBlog } from "@tomersf/blog.shared";
 import HomePage from "./components/HomePage";
 import AuthPage from "./components/AuthPage";
 import ThemeContext from "./context/theme";
+import NameContext from "./context/name";
 import ColorTheme from "./components/ColorTheme";
 import authService from "./services/authService";
 import ActionButton from "./components/ActionButton";
@@ -32,29 +33,31 @@ const App = () => {
 
   return (
     <>
-      <ThemeContext.Provider
-        value={{
-          isDark: darkMode,
-          toggleDark: () => setDarkMode((prevValue) => !prevValue),
-        }}
-      >
-        <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
-          {loggedIn ? (
-            <div className="flex h-full w-full">
-              <div className="mt-5 flex w-full px-5">
-                <ColorTheme />
-                <HomePage user={user} />
-                <ActionButton handleOnClick={signOut}>Sign Out</ActionButton>
+      <NameContext.Provider value={{ name: user }}>
+        <ThemeContext.Provider
+          value={{
+            isDark: darkMode,
+            toggleDark: () => setDarkMode((prevValue) => !prevValue),
+          }}
+        >
+          <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
+            {loggedIn ? (
+              <div className="flex h-full w-full">
+                <div className="mt-5 flex w-full px-5">
+                  <ColorTheme />
+                  <HomePage user={user} />
+                  <ActionButton handleOnClick={signOut}>Sign Out</ActionButton>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div>
-              <ColorTheme />
-              <AuthPage setLoggedIn={setLoggedIn} />
-            </div>
-          )}
-        </div>
-      </ThemeContext.Provider>
+            ) : (
+              <div>
+                <ColorTheme />
+                <AuthPage setLoggedIn={setLoggedIn} />
+              </div>
+            )}
+          </div>
+        </ThemeContext.Provider>
+      </NameContext.Provider>
     </>
   );
 };

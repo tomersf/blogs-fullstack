@@ -41,6 +41,7 @@ const loginUser = async (
     });
     if (res.status == HttpStatusCode.Ok) {
       window.localStorage.setItem("token", JSON.stringify(res.data.token));
+      setToken(res.data.token);
       return {
         success: true,
         token: res.data.token,
@@ -59,7 +60,7 @@ const loginUser = async (
 const setToken = (token: string) => {
   userToken = token;
 };
-const getToken = () => userToken;
+const getToken = () => `Bearer ${userToken}`;
 
 const removeToken = () => {
   localStorage.removeItem("token");
@@ -69,6 +70,7 @@ const parseToken = (): { isExpired: boolean; username: string } => {
   const savedToken = localStorage.getItem("token");
   if (savedToken) {
     const token = JSON.parse(savedToken);
+    setToken(token);
     const decodedToken = jwtDecode(token) as DecodedTokenPayload;
     const expirationDate = new Date(decodedToken.exp * 1000);
     const isExpired = expirationDate < new Date();
