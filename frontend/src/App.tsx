@@ -17,6 +17,7 @@ const App = () => {
     const { isExpired, username } = authService.parseToken();
     if (isExpired) {
       signOut();
+      return;
     }
     setUser(username);
     setLoggedIn(true);

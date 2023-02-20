@@ -1,11 +1,8 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import { User } from "../interfaces";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import appConfig from "../config";
 
-const userSchema = new Schema<User>({
+const userSchema = new mongoose.Schema<User>({
   username: {
     type: String,
     required: [true, "Name must be at least 3 chars long"],
@@ -32,4 +29,4 @@ userSchema.set("toJSON", {
   },
 });
 
-export default model<User>("User", userSchema);
+export default mongoose.model<User>("User", userSchema);

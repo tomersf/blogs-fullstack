@@ -16,6 +16,12 @@ type User = {
   id?: number;
 };
 
+type OptionsFlags<Type> = {
+  [Property in keyof Type]: 0 | 1;
+};
+
+type PopulatedOptionalFields<T> = Partial<OptionsFlags<T>>;
+
 type JWTPayload = {
   username: string;
   id: string;
@@ -28,4 +34,10 @@ type DecodedTokenPayload = {
   username: string;
 };
 
-export type { Blog, User, JWTPayload, DecodedTokenPayload };
+export type {
+  Blog,
+  User,
+  JWTPayload,
+  DecodedTokenPayload,
+  PopulatedOptionalFields,
+};

@@ -1,7 +1,7 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import { Blog } from "../interfaces";
 
-const blogSchema = new Schema<Blog>({
+const blogSchema = new mongoose.Schema<Blog>({
   title: {
     type: String,
     required: [true, "Title must be at least 5 chars long"],
@@ -38,10 +38,9 @@ const blogSchema = new Schema<Blog>({
 blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
-    returnedObject.user = returnedObject.user.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
   },
 });
 
-export default model<Blog>("Blog", blogSchema);
+export default mongoose.model<Blog>("Blog", blogSchema);

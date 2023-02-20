@@ -10,6 +10,7 @@ const Blogs = () => {
   const fetchBlogs = async () => {
     const response = await blogService.getAll();
     setBlogs(response);
+    console.log("%j", response[0].user);
     console.log(response);
     // NEED TO FIX, NOT GETTING THE POPULATED USER
     console.log(response[0].user);

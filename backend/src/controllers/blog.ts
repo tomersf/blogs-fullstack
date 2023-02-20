@@ -4,6 +4,7 @@ import { Blog } from "../interfaces";
 import { BadRequestError, NotFoundError } from "../errors";
 import ModelBlog from "../models/Blog";
 import ModelUser from "../models/User";
+import { PopulatedOptionalFields, User } from "@tomersf/blog.shared";
 
 const blogPropsExistenceValidator = (
   author: string,
@@ -15,7 +16,10 @@ const blogPropsExistenceValidator = (
 };
 
 const getAllBlogs = async (req: Request, res: Response) => {
-  const blogs = await ModelBlog.find({}).populate("user");
+  const blogs = await ModelBlog.find({}).populate("user", {
+    username: 1,
+    id: 1,
+  } as PopulatedOptionalFields<User>);
   return res.status(StatusCodes.OK).send(blogs);
 };
 
