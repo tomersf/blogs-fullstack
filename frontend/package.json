@@ -8,7 +8,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "cypress:open": "cypress open",
+    "test:e2e": "cypress run"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.15",
@@ -32,6 +34,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "babel-jest": "^29.4.3",
+    "cypress": "^12.6.0",
     "esbuild": "^0.17.10",
     "jsdom": "^21.1.0",
     "postcss": "^8.4.21",
