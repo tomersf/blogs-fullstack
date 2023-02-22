@@ -1,6 +1,7 @@
 import { HttpStatusCode } from "axios";
 import React, { useContext, useState } from "react";
 import ThemeContext from "../context/theme";
+import guard from "../helpers/guard";
 import blogService from "../services/blogService";
 import ActionButton from "./ActionButton";
 import HText from "./HText";
@@ -37,8 +38,7 @@ const CreateBlogForm = (props: Props) => {
       return;
     }
     const response = await blogService.createBlog(title, author, url);
-    console.log(response);
-    if (response.status == HttpStatusCode.Created) {
+    if (guard.isBlogType(response)) {
       setAuthor("");
       setURL("");
       setTitle("");
