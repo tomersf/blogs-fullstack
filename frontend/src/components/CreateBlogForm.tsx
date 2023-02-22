@@ -95,7 +95,9 @@ const CreateBlogForm = (props: Props) => {
           value={url}
         />
         <div>
-          <ActionButton handleOnClick={createBlog}>Create Blog</ActionButton>
+          <ActionButton handleOnClick={createBlog} id="create-blog-form-btn">
+            Create Blog
+          </ActionButton>
         </div>
       </div>
     </div>

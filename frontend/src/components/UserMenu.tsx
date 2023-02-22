@@ -31,7 +31,10 @@ const UserMenu = (props: Props) => {
   return (
     <div className="flex h-full w-full flex-col items-center">
       <div className="flex gap-6">
-        <ActionButton handleOnClick={createBlogHandler}>
+        <ActionButton
+          handleOnClick={createBlogHandler}
+          id="create-blog-menu-btn"
+        >
           Create Blog
         </ActionButton>
         <ActionButton handleOnClick={myBlogsHandler}>My Blogs</ActionButton>

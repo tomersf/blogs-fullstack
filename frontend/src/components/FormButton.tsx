@@ -8,9 +8,14 @@ type Props = {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   extraStyles?: string;
-};
+} & React.HTMLAttributes<HTMLButtonElement>;
 
-const FormButton = ({ handleOnClick, children, extraStyles }: Props) => {
+const FormButton = ({
+  handleOnClick,
+  children,
+  extraStyles,
+  ...restProps
+}: Props) => {
   const isDarkTheme = useContext(ThemeContext);
   let style, baseStyle, hoverStyle;
   if (isDarkTheme.isDark) {
@@ -36,6 +41,7 @@ const FormButton = ({ handleOnClick, children, extraStyles }: Props) => {
         extraStyles={style}
         isFormButton={true}
         handleOnClick={handleOnClick}
+        {...restProps}
       >
         {children}
       </ActionButton>

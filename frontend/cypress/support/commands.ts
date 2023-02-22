@@ -25,13 +25,48 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(username: string, password: string): Chainable<void>;
+      createBlog(title: string, author: string, url: string): Chainable<void>;
+      //   drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
+      //   dismiss(
+      //     subject: string,
+      //     options?: Partial<TypeOptions>
+      //   ): Chainable<Element>;
+      //   visit(
+      //     originalFn: CommandOriginalFn,
+      //     url: string,
+      //     options: Partial<VisitOptions>
+      //   ): Chainable<Element>;
+    }
+  }
+}
+
+Cypress.Commands.add("login", (username, password) => {
+  cy.request("POST", `${Cypress.env("BACKEND")}/users`, {
+    username,
+    password,
+  }).then(({ body }) => {
+    localStorage.setItem("token", JSON.stringify(body));
+    cy.visit("");
+  });
+});
+
+Cypress.Commands.add("createBlog", (title, author, url) => {
+  cy.request({
+    url: `${Cypress.env("BACKEND")}/users`,
+    method: "POST",
+    body: { title, author, url },
+    headers: {
+      Authorization: `Bearer ${
+        JSON.parse(localStorage.getItem("token")).token
+      }`,
+    },
+  });
+
+  cy.visit("");
+});
+
+export {};

@@ -156,7 +156,11 @@ const AuthPage = ({ setLoggedIn }: Props) => {
               }}
               placeholder="Password"
             />
-            <FormButton extraStyles="mt-5" handleOnClick={handleSubmit}>
+            <FormButton
+              extraStyles="mt-5"
+              handleOnClick={handleSubmit}
+              id="login-submit-btn"
+            >
               Login
             </FormButton>
           </form>
@@ -182,7 +186,11 @@ const AuthPage = ({ setLoggedIn }: Props) => {
             <p className="switch-description description">
               To keep connected with us please login with your personal info
             </p>
-            <FormButton extraStyles="mt-5" handleOnClick={changeAuth}>
+            <FormButton
+              extraStyles="mt-5"
+              handleOnClick={changeAuth}
+              id="login-change-form-btn"
+            >
               Login
             </FormButton>
           </div>
