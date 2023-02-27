@@ -5,7 +5,7 @@ type Blog = {
   author: string;
   url: string;
   likes: number;
-  user: Types.ObjectId;
+  user: Types.ObjectId | string;
   id?: number;
 };
 

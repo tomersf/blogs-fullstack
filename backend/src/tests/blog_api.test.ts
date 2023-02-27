@@ -20,6 +20,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  console.log("");
   await ModelBlog.deleteMany({});
   await ModelBlog.insertMany(DBHelper.initialBlogs);
 });
@@ -124,7 +125,10 @@ describe("when doing a PUT req to blogs", () => {
       `${DBHelper.API_ROUTES.BLOGS}${blog._id}`
     );
 
-    expect(updatedBlog.body).toEqual(blog.toJSON());
+    expect(updatedBlog.body).toEqual({
+      ...blog.toJSON(),
+      user: blog.toJSON().user.toString(),
+    });
   });
 });
 

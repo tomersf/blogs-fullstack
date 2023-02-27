@@ -9,18 +9,18 @@ import { generateToken } from "../helpers";
 enum API_ROUTES {
   USERS = "/api/users/",
   BLOGS = "/api/blogs/",
+  REGISTER = "/api/auth/register/",
+  LOGIN = "/api/auth/login/",
 }
 
 const initialUsers: User[] = [
   {
-    name: "Tomer",
     passwordHash: "testPass",
     blogs: [],
     username: "tomer",
     id: 1,
   },
   {
-    name: "Lisa",
     passwordHash: "testPass1",
     blogs: [],
     username: "lisaa",
@@ -107,7 +107,6 @@ const generateFakeUser = async () => {
 
   const fakeUser: User = {
     blogs: [],
-    name: crypto.randomBytes(4).toString("hex"),
     passwordHash,
     username: crypto.randomBytes(4).toString("hex"),
   };

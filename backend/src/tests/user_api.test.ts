@@ -6,7 +6,20 @@ import { StatusCodes } from "http-status-codes";
 import helper from "./helper";
 const api = supertest(app);
 
+const generatedUser = {
+  userID: "",
+  token: "",
+};
+
+beforeAll(async () => {
+  const [userID, token] = await helper.generateFakeUser();
+  helper.updateIdForInitialBlogs(userID);
+  generatedUser.token = token;
+  generatedUser.userID = userID;
+});
+
 beforeEach(async () => {
+  console.log("");
   await ModelUser.deleteMany({});
   await ModelUser.insertMany(helper.initialUsers);
 });
@@ -53,63 +66,6 @@ describe("viewing a specific user", () => {
   });
 });
 
-describe("addition of a new user", () => {
-  test("succeeds with valid data", async () => {
-    const newUser = {
-      name: "Takashi",
-      blogs: [],
-      password: "Ihsakat",
-      username: "btcMaster",
-    };
-
-    await api
-      .post(helper.API_ROUTES.USERS)
-      .send(newUser)
-      .expect(StatusCodes.CREATED)
-      .expect("Content-Type", /application\/json/);
-
-    const usersAfterAdding = await helper.usersInDb();
-    expect(usersAfterAdding).toHaveLength(helper.initialUsers.length + 1);
-
-    const contents = usersAfterAdding.map((user) => user.name);
-    expect(contents).toContain("Takashi");
-  });
-
-  test("fails with status code 400 if data invalid", async () => {
-    const newUser = {
-      name: "Ts",
-    };
-
-    await api
-      .post(helper.API_ROUTES.USERS)
-      .send(newUser)
-      .expect(StatusCodes.BAD_REQUEST);
-
-    const usersAtEnd = await helper.usersInDb();
-    expect(usersAtEnd).toHaveLength(helper.initialUsers.length);
-  });
-
-  test("creation fails with proper statuscode and message if username already taken", async () => {
-    const usersAtStart = await helper.usersInDb();
-    const newUser = {
-      username: "tomer",
-      name: "Superuser",
-      password: "super",
-    };
-
-    const result = await api
-      .post(helper.API_ROUTES.USERS)
-      .send(newUser)
-      .expect(StatusCodes.BAD_REQUEST)
-      .expect("Content-Type", /application\/json/);
-
-    expect(result.body.msg).toContain("Username already exists");
-
-    const usersAtEnd = await helper.usersInDb();
-    expect(usersAtEnd).toEqual(usersAtStart);
-  });
-});
-
 describe("deletion of a user", () => {
   test("succeeds with status code 204 if id is valid", async () => {
     const usersAtStart = await helper.usersInDb();
@@ -117,6 +73,7 @@ describe("deletion of a user", () => {
 
     await api
       .delete(`${helper.API_ROUTES.USERS}${userToDelete.id}`)
+      .set("Authorization", "Bearer " + generatedUser.token)
       .expect(StatusCodes.NO_CONTENT);
 
     const usersAtEnd = await helper.usersInDb();
