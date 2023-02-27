@@ -25,9 +25,11 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
+
 declare global {
   namespace Cypress {
     interface Chainable {
+      register(title: string, author: string): Chainable<void>;
       login(username: string, password: string): Chainable<void>;
       createBlog(title: string, author: string, url: string): Chainable<void>;
       //   drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
@@ -44,8 +46,15 @@ declare global {
   }
 }
 
+Cypress.Commands.add("register", (username, password) => {
+  cy.request("POST", `${Cypress.env("BACKEND_REGISTER")}`, {
+    username,
+    password,
+  }).then(({}) => {});
+});
+
 Cypress.Commands.add("login", (username, password) => {
-  cy.request("POST", `${Cypress.env("BACKEND")}/users`, {
+  cy.request("POST", `${Cypress.env("BACKEND_LOGIN")}`, {
     username,
     password,
   }).then(({ body }) => {
@@ -56,7 +65,7 @@ Cypress.Commands.add("login", (username, password) => {
 
 Cypress.Commands.add("createBlog", (title, author, url) => {
   cy.request({
-    url: `${Cypress.env("BACKEND")}/users`,
+    url: `${Cypress.env("BACKEND_BLOGS")}`,
     method: "POST",
     body: { title, author, url },
     headers: {

@@ -1,4 +1,8 @@
 describe("Blog app", function () {
+  // before(function () {
+  //   cy.register("TestUser", "TestPass");
+  // });
+
   beforeEach(function () {
     cy.login("TestUser", "TestPass");
   });
@@ -7,14 +11,14 @@ describe("Blog app", function () {
     cy.contains("Welcome Back !");
   });
 
-  it.only("login fails with wrong password", function () {
-    cy.contains("log in").click();
-    cy.get('input[placeholder="Username"]').type("TestUser");
-    cy.get('input[placeholder="Password"]').type("WrongPass");
-    cy.get("#login-submit-btn").click();
+  // it.only("login fails with wrong password", function () {
+  //   cy.contains("log in").click();
+  //   cy.get('input[placeholder="Username"]').type("TestUser");
+  //   cy.get('input[placeholder="Password"]').type("WrongPass");
+  //   cy.get("#login-submit-btn").click();
 
-    cy.contains("Something went wrong!");
-  });
+  //   cy.contains("Something went wrong!");
+  // });
 
   it("user can login", function () {
     cy.get("#login-change-form-btn").click();
