@@ -97,6 +97,7 @@ const AuthPage = ({ setLoggedIn }: Props) => {
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
+              value={username}
               placeholder="Username"
             />
             <InputButton
@@ -104,6 +105,7 @@ const AuthPage = ({ setLoggedIn }: Props) => {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              value={password}
               placeholder="Password"
             />
 
@@ -147,14 +149,18 @@ const AuthPage = ({ setLoggedIn }: Props) => {
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
+              value={username}
               placeholder="Username"
+              id="login-username-btn"
             />
             <InputButton
               type="password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              value={password}
               placeholder="Password"
+              id="login-password-btn"
             />
             <FormButton
               extraStyles="mt-5"

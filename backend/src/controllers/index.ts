@@ -8,6 +8,7 @@ import {
   getUserBlogs,
 } from "./blog";
 import { loginUser, registerUser } from "./auth";
+import { resetTestData } from "./reset";
 
 export {
   deleteUser,
@@ -21,4 +22,5 @@ export {
   loginUser,
   registerUser,
   getUserBlogs,
+  resetTestData,
 };

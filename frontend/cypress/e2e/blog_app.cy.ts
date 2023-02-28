@@ -1,14 +1,43 @@
-describe("Blog app", function () {
-  // before(function () {
-  //   cy.register("TestUser", "TestPass");
-  // });
+before(function () {
+  cy.register("TestUser", "TestPass");
+});
 
+describe("Login Page", function () {
   beforeEach(function () {
-    cy.login("TestUser", "TestPass");
+    cy.visit("/");
   });
 
-  it("front page can be opened", function () {
+  it("Login form is shown", function () {
     cy.contains("Welcome Back !");
+  });
+
+  describe("Login", function () {
+    it("succeeds with correct credentials", function () {
+      cy.get("#login-change-form-btn").click();
+      cy.get("#login-username-btn").type("TestUser");
+      cy.get("#login-password-btn").type("TestPass");
+      cy.get("#login-submit-btn").click();
+      cy.contains("Welcome TestUser");
+    });
+
+    it("fails with wrong credentials", function () {
+      cy.get("#login-change-form-btn").click();
+      cy.get("#login-username-btn").type("TestUser123");
+      cy.get("#login-password-btn").type("TestPass123");
+      cy.get("#login-submit-btn").click();
+      cy.contains("Something went wrong!");
+    });
+  });
+});
+
+describe("When Logged In", function () {
+  beforeEach(function () {
+    cy.resetTestUserData();
+    cy.login("TestUser", "TestPass");
+    cy.get("#login-change-form-btn").click();
+    cy.get("#login-username-btn").type("TestUser");
+    cy.get("#login-password-btn").type("TestPass");
+    cy.get("#login-submit-btn").click();
   });
 
   // it.only("login fails with wrong password", function () {
@@ -20,14 +49,7 @@ describe("Blog app", function () {
   //   cy.contains("Something went wrong!");
   // });
 
-  it("user can login", function () {
-    cy.get("#login-change-form-btn").click();
-    cy.get('input[placeholder="Username"]').type("TestUser");
-    cy.get('input[placeholder="Password"]').type("TestPass");
-    cy.get("#login-submit-btn").click();
-  });
-
-  it("a new blog can be created", function () {
+  it("a new blog with valid data can be created", function () {
     cy.get("#create-blog-menu-btn").click();
     cy.get('input[placeholder="Title"]').type("TestTitle");
     cy.get('input[placeholder="Author"]').type("TestAuthor");

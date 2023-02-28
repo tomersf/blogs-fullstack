@@ -22,7 +22,7 @@ const App = () => {
     }
     setUser(username);
     setLoggedIn(true);
-  }, []);
+  }, [loggedIn]);
 
   const signOut = () => {
     authService.removeToken();

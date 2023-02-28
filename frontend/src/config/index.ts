@@ -7,6 +7,7 @@ const usersUrl = baseUrl + "users/";
 const authUrl = baseUrl + "auth/";
 const loginUrl = authUrl + "login";
 const registerUrl = authUrl + "register";
+const resetUrl = baseUrl + "testing/reset";
 
 const requestConfig = () => {
   return { headers: { Authorization: authService.getToken() } };
@@ -20,6 +21,7 @@ export default {
   blogsUrl,
   loginUrl,
   registerUrl,
+  resetUrl,
   usersUrl,
   JWT_SECRET,
   userBlogsUrl,

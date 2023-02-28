@@ -8,7 +8,7 @@ import {
   notFoundMiddleware,
   errorHandlerMiddleware,
 } from "./middlewares";
-import { usersRouter, blogsRouter, authRouter } from "./routes";
+import { usersRouter, blogsRouter, authRouter, testingRouter } from "./routes";
 import appConfig from "./config";
 
 const app = express();
@@ -26,6 +26,10 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/users", usersRouter);
 app.use("/api/blogs", blogsRouter);
+
+if (appConfig.isTest || appConfig.isDev) {
+  app.use("/api/testing", testingRouter);
+}
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -29,9 +29,10 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      register(title: string, author: string): Chainable<void>;
+      register(username: string, password: string): Chainable<void>;
       login(username: string, password: string): Chainable<void>;
       createBlog(title: string, author: string, url: string): Chainable<void>;
+      resetTestUserData(): Chainable<void>;
       //   drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
       //   dismiss(
       //     subject: string,
@@ -46,11 +47,20 @@ declare global {
   }
 }
 
+Cypress.Commands.add("resetTestUserData", () => {
+  cy.request("POST", `${Cypress.env("BACKEND_RESET")}`);
+});
+
 Cypress.Commands.add("register", (username, password) => {
-  cy.request("POST", `${Cypress.env("BACKEND_REGISTER")}`, {
-    username,
-    password,
-  }).then(({}) => {});
+  cy.request({
+    method: "POST",
+    url: `${Cypress.env("BACKEND_REGISTER")}`,
+    failOnStatusCode: false,
+    body: {
+      username,
+      password,
+    },
+  }).then(() => cy.visit("/"));
 });
 
 Cypress.Commands.add("login", (username, password) => {
@@ -58,8 +68,8 @@ Cypress.Commands.add("login", (username, password) => {
     username,
     password,
   }).then(({ body }) => {
-    localStorage.setItem("token", JSON.stringify(body));
-    cy.visit("");
+    // localStorage.setItem("token", JSON.stringify(body));
+    cy.visit("/");
   });
 });
 
@@ -75,7 +85,7 @@ Cypress.Commands.add("createBlog", (title, author, url) => {
     },
   });
 
-  cy.visit("");
+  cy.visit("/");
 });
 
 export {};
