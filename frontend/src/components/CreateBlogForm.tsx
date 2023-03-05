@@ -1,8 +1,11 @@
-import { HttpStatusCode } from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ThemeContext from "../context/theme";
-import guard from "../helpers/guard";
-import blogService from "../services/blogService";
+import { useStoreDispatch, useStoreSelector } from "../store/hooks";
+import {
+  createBlog as createBlogReducer,
+  setError,
+  setSuccess,
+} from "../reducers/blogReducer";
 import ActionButton from "./ActionButton";
 import HText from "./HText";
 import InputButton from "./InputButton";
@@ -13,42 +16,38 @@ const CreateBlogForm = (props: Props) => {
   const [author, setAuthor] = useState("");
   const [url, setURL] = useState("");
   const [title, setTitle] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isFailed, setIsFailed] = useState(false);
   const theme = useContext(ThemeContext);
+  const dispatch = useStoreDispatch();
+  const error = useStoreSelector((state) => state.blogs.isCreateBlogError);
+  const success = useStoreSelector((state) => state.blogs.isCreateBlogSuccess);
 
-  const validateInputs = () => {
-    if (
-      author.length >= 5 &&
-      title.length >= 3 &&
-      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/.test(
-        url
-      )
-    ) {
-      return true;
-    }
-    return false;
+  const createBlog = () => {
+    dispatch(createBlogReducer({ title, author, url }));
   };
 
-  const createBlog = async () => {
-    const validInputs = validateInputs();
-    if (!validInputs) {
-      setIsFailed(true);
-      setIsSuccess(false);
-      return;
-    }
-    const response = await blogService.createBlog(title, author, url);
-    if (guard.isBlogType(response)) {
+  const clearInputs = () => {
+    setURL("");
+    setTitle("");
+    setAuthor("");
+  };
+
+  useEffect(() => {
+    if (success) {
       setAuthor("");
       setURL("");
       setTitle("");
-      setIsSuccess(true);
-      setIsFailed(false);
-    } else {
-      setIsFailed(true);
-      setIsSuccess(false);
+      setTimeout(() => {
+        dispatch(setSuccess(false));
+        clearInputs();
+      }, 1500);
     }
-  };
+
+    if (error) {
+      setTimeout(() => {
+        dispatch(setError(false));
+      }, 1500);
+    }
+  }, [error, success]);
 
   return (
     <div
@@ -60,10 +59,10 @@ const CreateBlogForm = (props: Props) => {
     >
       <div className="flex h-full flex-col items-center justify-center gap-3 ">
         <HText extraStyles="text-2xl">Blog Form</HText>
-        {isFailed ? (
+        {error ? (
           <HText extraStyles="bg-red-500 rounded-xl">Failed!</HText>
         ) : null}
-        {isSuccess ? <HText extraStyles="text-xl">Success!</HText> : null}
+        {success ? <HText extraStyles="text-xl">Success!</HText> : null}
         <InputButton
           extraStyles={`${
             theme.isDark

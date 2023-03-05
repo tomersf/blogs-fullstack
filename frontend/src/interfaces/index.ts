@@ -5,14 +5,25 @@ interface LoginPayload {
   token?: string;
 }
 
-interface ActionWithBlogPayload {
+interface Action {
   type: string;
-  payload: ReturnedBlog;
+  payload: any;
 }
 
-interface ActionWithBlogsPayload {
-  type: string;
+interface ActionSetBoolean extends Action {
+  payload: boolean;
+}
+
+interface ActionAppendBlog extends Action {
+  payload: { author: string; title: string; url: string };
+}
+
+interface ActionSetBlogs extends Action {
   payload: ReturnedBlog[];
+}
+
+interface ActionSetMyBlogs extends Action {
+  payload: string;
 }
 
 interface ActionLogIn {
@@ -22,7 +33,9 @@ interface ActionLogIn {
 
 export type {
   LoginPayload,
-  ActionWithBlogPayload,
+  ActionAppendBlog,
+  ActionSetBlogs,
+  ActionSetBoolean,
+  ActionSetMyBlogs,
   ActionLogIn,
-  ActionWithBlogsPayload,
 };

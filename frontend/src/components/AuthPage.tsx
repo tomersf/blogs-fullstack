@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import authService from "../services/authService";
 import InputButton from "./InputButton";
 import Message from "./Message";
@@ -6,13 +6,11 @@ import "../styles/auth.css";
 import ThemeContext from "../context/theme";
 import FormButton from "./FormButton";
 import { useStoreDispatch } from "../store/hooks";
-import { logAsGuest } from "../reducers/userReducer";
+import { logAsGuest, logIn } from "../reducers/userReducer";
 
-type Props = {
-  setLoggedIn: Dispatch<SetStateAction<boolean>>;
-};
+type Props = {};
 
-const AuthPage = ({ setLoggedIn }: Props) => {
+const AuthPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(true);
@@ -50,7 +48,7 @@ const AuthPage = ({ setLoggedIn }: Props) => {
     } else {
       result = await authService.loginUser(username, password);
       if (result.success) {
-        setLoggedIn(true);
+        dispatch(logIn(username));
         return;
       }
     }

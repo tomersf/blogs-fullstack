@@ -7,10 +7,9 @@ import authService from "./services/authService";
 import ActionButton from "./components/ActionButton";
 import { useStoreDispatch, useStoreSelector } from "./store/hooks";
 import { logIn, logOut } from "./reducers/userReducer";
-import { setBlogs } from "./reducers/blogReducer";
+import { initializeBlogs, setBlogs } from "./reducers/blogReducer";
 
 const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const user = useStoreSelector((state) => state.user);
   const dispatch = useStoreDispatch();
@@ -21,15 +20,14 @@ const App = () => {
       signOut();
       return;
     }
+    dispatch(initializeBlogs(username));
     dispatch(logIn(username));
-    setLoggedIn(true);
-  }, [loggedIn]);
+  }, []);
 
   const signOut = () => {
     authService.removeToken();
     dispatch(logOut());
     dispatch(setBlogs([]));
-    setLoggedIn(false);
   };
 
   return (
@@ -50,9 +48,11 @@ const App = () => {
               </div>
             </div>
           ) : (
-            <div>
-              <ColorTheme />
-              <AuthPage setLoggedIn={setLoggedIn} />
+            <div className="flex h-full w-full flex-col">
+              <div className="mt-5 flex w-full px-5">
+                <ColorTheme />
+              </div>
+              <AuthPage />
             </div>
           )}
         </div>
