@@ -18,7 +18,7 @@ function isBlogType(data: Blog | unknown): data is Blog {
 
 function isBlogsType(data: Blog[] | unknown): data is Blog[] {
   try {
-    return (Array.isArray(data) && (data as Blog[])[0].title) !== undefined;
+    return Boolean(Array.isArray(data) && (data as Blog[])[0]?.title);
   } catch {
     return false;
   }

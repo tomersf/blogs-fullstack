@@ -5,6 +5,8 @@ import Message from "./Message";
 import "../styles/auth.css";
 import ThemeContext from "../context/theme";
 import FormButton from "./FormButton";
+import { useStoreDispatch } from "../store/hooks";
+import { logAsGuest } from "../reducers/userReducer";
 
 type Props = {
   setLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -17,6 +19,7 @@ const AuthPage = ({ setLoggedIn }: Props) => {
   const [switchForm, setSwitchForm] = useState(false);
   const [message, setMessage] = useState("");
   const theme = useContext(ThemeContext);
+  const dispatch = useStoreDispatch();
 
   const changeAuth = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setTimeout(function () {
@@ -26,6 +29,10 @@ const AuthPage = ({ setLoggedIn }: Props) => {
     setUsername("");
     setPassword("");
     setIsRegistering((oldValue) => !oldValue);
+  };
+
+  const handleGuestLogin = () => {
+    dispatch(logAsGuest());
   };
 
   const handleSubmit = async (
@@ -111,6 +118,9 @@ const AuthPage = ({ setLoggedIn }: Props) => {
 
             <FormButton extraStyles="mt-5" handleOnClick={handleSubmit}>
               Register
+            </FormButton>
+            <FormButton extraStyles="mt-5" handleOnClick={handleGuestLogin}>
+              Continue as Guest
             </FormButton>
           </form>
         </div>

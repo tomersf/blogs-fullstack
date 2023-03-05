@@ -38,11 +38,11 @@ const Blogs = ({ all }: Props) => {
 
   return (
     <div className="mt-5 grid w-full max-w-sm grid-cols-3 gap-3 md:max-w-2xl">
-      {blogs
+      {blogs.length > 0
         ? blogs.map((blog) => (
             <Blog onDelete={blogDeleteHandler} key={blog.id} blog={blog} />
           ))
-        : ""}
+        : "No Blogs to display"}
     </div>
   );
 };
