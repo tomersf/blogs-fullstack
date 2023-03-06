@@ -7,6 +7,7 @@ import ThemeContext from "../context/theme";
 import FormButton from "./FormButton";
 import { useStoreDispatch } from "../store/hooks";
 import { logAsGuest, logIn } from "../reducers/userReducer";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -18,6 +19,7 @@ const AuthPage = () => {
   const [message, setMessage] = useState("");
   const theme = useContext(ThemeContext);
   const dispatch = useStoreDispatch();
+  const navigate = useNavigate();
 
   const changeAuth = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setTimeout(function () {
@@ -31,6 +33,7 @@ const AuthPage = () => {
 
   const handleGuestLogin = () => {
     dispatch(logAsGuest());
+    navigate("/");
   };
 
   const handleSubmit = async (
@@ -49,6 +52,7 @@ const AuthPage = () => {
       result = await authService.loginUser(username, password);
       if (result.success) {
         dispatch(logIn(username));
+        navigate("/");
         return;
       }
     }

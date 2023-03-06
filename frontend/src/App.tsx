@@ -8,6 +8,13 @@ import ActionButton from "./components/ActionButton";
 import { useStoreDispatch, useStoreSelector } from "./store/hooks";
 import { logIn, logOut } from "./reducers/userReducer";
 import { initializeBlogs, setBlogs } from "./reducers/blogReducer";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -31,7 +38,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <Router>
       <ThemeContext.Provider
         value={{
           isDark: darkMode,
@@ -39,25 +46,40 @@ const App = () => {
         }}
       >
         <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
-          {user.loggedIn ? (
-            <div className="flex h-full w-full">
-              <div className="mt-5 flex w-full px-5">
-                <ColorTheme />
-                <HomePage user={user.username || "Guest"} />
-                <ActionButton handleOnClick={signOut}>Sign Out</ActionButton>
-              </div>
-            </div>
-          ) : (
-            <div className="flex h-full w-full flex-col">
-              <div className="mt-5 flex w-full px-5">
-                <ColorTheme />
-              </div>
-              <AuthPage />
-            </div>
-          )}
+          <Routes>
+            <Route
+              path="/auth"
+              element={
+                <div className="flex h-full w-full flex-col">
+                  <div className="mt-5 flex w-full px-5">
+                    <ColorTheme />
+                  </div>
+                  <AuthPage />
+                </div>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                user.loggedIn ? (
+                  <div className="flex h-full w-full">
+                    <div className="mt-5 flex w-full px-5">
+                      <ColorTheme />
+                      <HomePage user={user.username || "Guest"} />
+                      <ActionButton handleOnClick={signOut}>
+                        Sign Out
+                      </ActionButton>
+                    </div>
+                  </div>
+                ) : (
+                  <Navigate replace to="/auth" />
+                )
+              }
+            />
+          </Routes>
         </div>
       </ThemeContext.Provider>
-    </>
+    </Router>
   );
 };
 
