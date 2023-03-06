@@ -20,9 +20,10 @@ const CreateBlogForm = (props: Props) => {
   const dispatch = useStoreDispatch();
   const error = useStoreSelector((state) => state.blogs.isCreateBlogError);
   const success = useStoreSelector((state) => state.blogs.isCreateBlogSuccess);
+  const username = useStoreSelector((state) => state.user.username)!;
 
   const createBlog = () => {
-    dispatch(createBlogReducer({ title, author, url }));
+    dispatch(createBlogReducer({ title, author, url, username }));
   };
 
   const clearInputs = () => {

@@ -7,7 +7,7 @@ import authService from "./services/authService";
 import ActionButton from "./components/ActionButton";
 import { useStoreDispatch, useStoreSelector } from "./store/hooks";
 import { logIn, logOut } from "./reducers/userReducer";
-import { initializeBlogs, setBlogs } from "./reducers/blogReducer";
+import { initializeBlogs, setBlogs, setMyBlogs } from "./reducers/blogReducer";
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,6 +15,8 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
+import Blogs from "./components/Blogs";
+import CreateBlogForm from "./components/CreateBlogForm";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -29,12 +31,13 @@ const App = () => {
     }
     dispatch(initializeBlogs(username));
     dispatch(logIn(username));
-  }, []);
+  }, [user]);
 
   const signOut = () => {
     authService.removeToken();
     dispatch(logOut());
     dispatch(setBlogs([]));
+    dispatch(setMyBlogs(""));
   };
 
   return (
@@ -57,7 +60,7 @@ const App = () => {
                   <AuthPage />
                 </div>
               }
-            />
+            ></Route>
             <Route
               path="/"
               element={
@@ -75,7 +78,11 @@ const App = () => {
                   <Navigate replace to="/auth" />
                 )
               }
-            />
+            >
+              <Route path="blogs/:name" element={<Blogs all={false} />}></Route>
+              <Route path="blogs" element={<Blogs all />}></Route>
+              <Route path="blog" element={<CreateBlogForm />} />
+            </Route>
           </Routes>
         </div>
       </ThemeContext.Provider>

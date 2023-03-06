@@ -32,7 +32,14 @@ const blogSlice = createSlice({
     setSuccess(state, action: ActionSetBoolean) {
       state.isCreateBlogSuccess = action.payload;
     },
-    appendBlog(state, action: ActionAppendBlog) {},
+    appendBlog(state, action: ActionAppendBlog) {
+      const blog = {
+        ...action.payload,
+        user: { username: action.payload.username, id: action.payload.user },
+      };
+      state.blogs.push(blog);
+      state.myBlogs.push(blog);
+    },
     setBlogs(state, action: ActionSetBlogs) {
       state.blogs = action.payload;
     },
@@ -58,9 +65,10 @@ export const createBlog = (args: {
   author: string;
   title: string;
   url: string;
+  username: string;
 }): ThunkFn => {
   return async (dispatch) => {
-    const { title, author, url } = args;
+    const { title, author, url, username } = args;
     const isValid = validateInputs(author, title, url);
     if (!isValid) {
       dispatch(setError(true));
@@ -71,6 +79,7 @@ export const createBlog = (args: {
     if (guard.isBlogType(response)) {
       dispatch(setError(false));
       dispatch(setSuccess(true));
+      dispatch(appendBlog({ ...response, username }));
     } else {
       dispatch(setError(true));
       dispatch(setSuccess(false));

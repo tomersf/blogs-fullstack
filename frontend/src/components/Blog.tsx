@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import NameContext from "../context/name";
 import ThemeContext from "../context/theme";
 import blogService from "../services/blogService";
+import { useStoreSelector } from "../store/hooks";
 import ActionButton from "./ActionButton";
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 
 const Blog = ({ blog, onDelete }: Props) => {
   const themeContext = useContext(ThemeContext);
-  const nameContext = useContext(NameContext);
+  const user = useStoreSelector((state) => state.user);
   const [likes, setLikes] = useState(blog.likes);
 
   const increaseLikeHandler = () => {
@@ -52,15 +53,21 @@ const Blog = ({ blog, onDelete }: Props) => {
       <a className="underline" href={`http://${blog.url}`}>
         Link
       </a>
-      <div className="flex w-full items-center justify-between">
-        <div>{`@${blog.user.username}`}</div>
-        {blog.user.username == nameContext.name ? (
-          <ActionButton
-            extraStyles="w-1/3 rounded-md h-[30px] m-1"
-            handleOnClick={deleteBlogHandler}
-          >
-            Delete
-          </ActionButton>
+      <div className="flex w-full flex-col">
+        <div>{`@${
+          blog.user.username.length > 20
+            ? `${blog.user.username.slice(0, 20)}...`
+            : blog.user.username
+        }`}</div>
+        {blog.user.username == user.username ? (
+          <div className="flex justify-center">
+            <ActionButton
+              extraStyles="w-1/2 rounded-md h-[30px] m-1"
+              handleOnClick={deleteBlogHandler}
+            >
+              Delete
+            </ActionButton>
+          </div>
         ) : null}
       </div>
     </div>

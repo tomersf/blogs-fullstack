@@ -1,4 +1,4 @@
-import { ReturnedBlog, User } from "@tomersf/blog.shared";
+import { Blog, ReturnedBlog, User } from "@tomersf/blog.shared";
 
 interface LoginPayload {
   success: boolean;
@@ -15,7 +15,7 @@ interface ActionSetBoolean extends Action {
 }
 
 interface ActionAppendBlog extends Action {
-  payload: { author: string; title: string; url: string };
+  payload: Blog & { username: string };
 }
 
 interface ActionSetBlogs extends Action {

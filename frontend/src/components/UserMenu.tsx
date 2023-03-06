@@ -1,39 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useStoreSelector } from "../store/hooks";
 import ActionButton from "./ActionButton";
-import Blogs from "./Blogs";
-import CreateBlogForm from "./CreateBlogForm";
-
 type Props = {};
 
 const UserMenu = (props: Props) => {
-  const [isCreatingBlog, setIsCreatingBlog] = useState(false);
-  const [isViewingAllBlogs, setIsViewingAllBlogs] = useState(false);
-  const [isViewingMyBlogs, setIsViewingMyBlogs] = useState(false);
-  const isGuest = useStoreSelector((state) => state.user.asGuest);
+  const user = useStoreSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const createBlogHandler = () => {
-    setIsCreatingBlog(true);
-    setIsViewingAllBlogs(false);
-    setIsViewingMyBlogs(false);
+    navigate("blog");
   };
 
   const myBlogsHandler = () => {
-    setIsCreatingBlog(false);
-    setIsViewingAllBlogs(false);
-    setIsViewingMyBlogs(true);
+    navigate(`blogs/${user.username}`);
   };
 
   const allBlogsHandler = () => {
-    setIsCreatingBlog(false);
-    setIsViewingAllBlogs(true);
-    setIsViewingMyBlogs(false);
+    navigate("blogs");
   };
 
   return (
     <div className="flex h-full w-full flex-col items-center">
       <div className="flex gap-6">
-        {isGuest ? null : (
+        {user.asGuest ? null : (
           <>
             <ActionButton
               handleOnClick={createBlogHandler}
@@ -41,14 +31,13 @@ const UserMenu = (props: Props) => {
             >
               Create Blog
             </ActionButton>
+
             <ActionButton handleOnClick={myBlogsHandler}>My Blogs</ActionButton>
           </>
         )}
         <ActionButton handleOnClick={allBlogsHandler}>All Blogs</ActionButton>
       </div>
-      {isCreatingBlog && !isGuest ? <CreateBlogForm /> : null}
-      {isViewingMyBlogs && !isGuest ? <Blogs all={false} /> : null}
-      {isViewingAllBlogs ? <Blogs all={true} /> : null}
+      <Outlet />
     </div>
   );
 };
