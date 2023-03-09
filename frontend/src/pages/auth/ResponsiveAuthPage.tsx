@@ -23,8 +23,8 @@ const ResponsiveAuthPage = (props: Props) => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="mt-5 flex w-full px-5">
+    <div className="flex flex-col">
+      <div className="mt-3 flex w-full px-3">
         <ColorTheme />
       </div>
       <AuthPage />

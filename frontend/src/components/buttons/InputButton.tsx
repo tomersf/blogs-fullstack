@@ -18,7 +18,7 @@ const InputButton = ({
   extraStyles,
   id,
 }: Props) => {
-  const styles = `form-input font-Ubuntu my-1 mx-0 h-[40px] w-[350px] rounded-lg border-none bg-[#ecf0f3] pl-6 font-[sans-serif] text-sm tracking-[0.15px] outline-none duration-200 ease-in ${extraStyles}`;
+  const styles = `form-input font-Ubuntu my-1 mx-0 rounded-lg border-none bg-[#ecf0f3] pl-6 font-[sans-serif] text-sm tracking-[0.15px] outline-none duration-200 ease-in ${extraStyles} h-[40px] w-[350px]`;
   return (
     <input
       onChange={onChange}

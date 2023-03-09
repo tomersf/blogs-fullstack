@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import ActionButton from "../../components/buttons/ActionButton";
+import FormButton from "../../components/buttons/FormButton";
 import ThemeContext from "../../context/theme";
 import { MediaQuery } from "../../helpers/queriesSize";
 import useMediaQuery from "../../hooks/useMediaQuery";
@@ -20,23 +20,23 @@ const AuthOptions = ({
   return (
     <div>
       {registering ? (
-        <ActionButton
+        <FormButton
           extraStyles=""
           handleOnClick={() => {
             setRegistering(!registering);
           }}
         >
           Switch to Login
-        </ActionButton>
+        </FormButton>
       ) : (
-        <ActionButton
+        <FormButton
           extraStyles=""
           handleOnClick={() => {
             setRegistering(!registering);
           }}
         >
           Switch to Register
-        </ActionButton>
+        </FormButton>
       )}
     </div>
   );
@@ -46,18 +46,20 @@ const AuthPageSmall = (props: Props) => {
   const [registering, setRegistering] = useState(true);
   const theme = useContext(ThemeContext);
   const isVerySmallScreen = useMediaQuery(MediaQuery.BelowVerySmallScreen);
+
   if (isVerySmallScreen) {
     return <div>Test</div>;
   }
+
   return (
-    <div className="mt-5 flex h-fit flex-col items-center">
+    <div className="mt-5 flex h-fit flex-col justify-center">
       <div
         className={`${
           theme.isDark ? "bg-primary-light" : "bg-primary-dark"
-        }  rounded-xl p-6`}
+        }  rounded-xl `}
       >
         {registering ? <RegisterForm /> : <LoginForm />}
-        <div className="mt-5 flex justify-center">
+        <div className="m-5 flex justify-center">
           <AuthOptions
             registering={registering}
             setRegistering={setRegistering}
