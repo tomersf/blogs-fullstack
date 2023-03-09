@@ -3,7 +3,7 @@ import deepFreeze from "deep-freeze";
 
 describe("blogReducer", () => {
   test("returns new state with action blogs/createBlog", () => {
-    const state = [];
+    const state: any = [];
     const action = {
       type: "blogs/createBlog",
       payload: "the app state is in redux store",

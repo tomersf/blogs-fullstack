@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import ActionButton from "./ActionButton";
+import ActionButton from "./buttons/ActionButton";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import ThemeContext from "../context/theme";
 
-type Props = {};
+type Props = {
+  extraStyles?: string;
+};
 
-const ColorTheme = ({}: Props) => {
+const ColorTheme = ({ extraStyles }: Props) => {
   const darkMode = useContext(ThemeContext);
 
   const changeThemeHandler = () => {
@@ -13,21 +15,12 @@ const ColorTheme = ({}: Props) => {
   };
   let styles, content;
   if (darkMode.isDark) {
-    styles = "flex justify-center items-center w-[100px]";
+    styles = `flex justify-center items-center ${extraStyles}`;
     content = <SunIcon className="w-7" />;
   } else {
-    styles = "flex justify-center items-center w-[100px]";
+    styles = `flex justify-center items-center ${extraStyles}`;
     content = <MoonIcon className="w-7" />;
   }
-  // return (
-  //   <button onClick={() => {}} className="flex w-20 justify-center bg-red-500">
-  //     {darkMode.isDark ? (
-  //       <SunIcon className="w-6 items-center text-white" />
-  //     ) : (
-  //       <MoonIcon className="w-6 items-center text-center" />
-  //     )}
-  //   </button>
-  // );
 
   return (
     <ActionButton

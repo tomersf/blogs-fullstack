@@ -13,8 +13,6 @@ const requestConfig = () => {
   return { headers: { Authorization: authService.getToken() } };
 };
 
-const JWT_SECRET = "Test";
-
 export default {
   authUrl,
   baseUrl,
@@ -23,7 +21,6 @@ export default {
   registerUrl,
   resetUrl,
   usersUrl,
-  JWT_SECRET,
   userBlogsUrl,
   requestConfig,
 };

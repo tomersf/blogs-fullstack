@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import ThemeContext from "../context/theme";
+import ThemeContext from "../../context/theme";
 
 type Props = {
-  placeholder: string;
+  placeholder?: string;
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   extraStyles?: string;
   id?: string;

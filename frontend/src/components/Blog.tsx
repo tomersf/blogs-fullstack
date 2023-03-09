@@ -1,11 +1,9 @@
-import { Blog as IBlog, ReturnedBlog } from "@tomersf/blog.shared";
-import { HttpStatusCode } from "axios";
+import { ReturnedBlog } from "@tomersf/blog.shared";
 import { useContext, useState } from "react";
-import NameContext from "../context/name";
 import ThemeContext from "../context/theme";
 import blogService from "../services/blogService";
 import { useStoreSelector } from "../store/hooks";
-import ActionButton from "./ActionButton";
+import ActionButton from "./buttons/ActionButton";
 
 type Props = {
   blog: ReturnedBlog;

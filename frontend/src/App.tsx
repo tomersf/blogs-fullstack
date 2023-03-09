@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import HomePage from "./components/HomePage";
-import AuthPage from "./components/AuthPage";
+import HomePage from "./pages/HomePage";
 import ThemeContext from "./context/theme";
 import ColorTheme from "./components/ColorTheme";
 import authService from "./services/authService";
-import ActionButton from "./components/ActionButton";
+import ActionButton from "./components/buttons/ActionButton";
 import { useStoreDispatch, useStoreSelector } from "./store/hooks";
 import { logIn, logOut } from "./reducers/userReducer";
 import { initializeBlogs, setBlogs, setMyBlogs } from "./reducers/blogReducer";
@@ -12,11 +11,11 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   Navigate,
 } from "react-router-dom";
 import Blogs from "./components/Blogs";
 import CreateBlogForm from "./components/CreateBlogForm";
+import ResponsiveAuthPage from "./pages/auth/ResponsiveAuthPage";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -25,13 +24,15 @@ const App = () => {
 
   useEffect(() => {
     const { isExpired, username } = authService.parseToken();
-    if (isExpired) {
+    if (!user.asGuest && isExpired) {
       signOut();
       return;
     }
     dispatch(initializeBlogs(username));
-    dispatch(logIn(username));
-  }, [user]);
+    if (!user.asGuest) {
+      dispatch(logIn(username));
+    }
+  }, [user.loggedIn]);
 
   const signOut = () => {
     authService.removeToken();
@@ -50,17 +51,7 @@ const App = () => {
       >
         <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
           <Routes>
-            <Route
-              path="/auth"
-              element={
-                <div className="flex h-full w-full flex-col">
-                  <div className="mt-5 flex w-full px-5">
-                    <ColorTheme />
-                  </div>
-                  <AuthPage />
-                </div>
-              }
-            ></Route>
+            <Route path="/auth" element={<ResponsiveAuthPage />} />
             <Route
               path="/"
               element={

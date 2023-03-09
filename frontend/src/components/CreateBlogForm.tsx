@@ -6,9 +6,9 @@ import {
   setError,
   setSuccess,
 } from "../reducers/blogReducer";
-import ActionButton from "./ActionButton";
+import ActionButton from "./buttons/ActionButton";
 import HText from "./HText";
-import InputButton from "./InputButton";
+import InputButton from "./buttons/InputButton";
 
 type Props = {};
 

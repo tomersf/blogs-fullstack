@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
-import authService from "../services/authService";
-import InputButton from "./InputButton";
-import Message from "./Message";
-import "../styles/auth.css";
-import ThemeContext from "../context/theme";
-import FormButton from "./FormButton";
-import { useStoreDispatch } from "../store/hooks";
-import { logAsGuest, logIn } from "../reducers/userReducer";
+import authService from "../../services/authService";
+import InputButton from "../../components/buttons/InputButton";
+import Message from "../../components/Message";
+import ThemeContext from "../../context/theme";
+import FormButton from "../../components/buttons/FormButton";
+import { useStoreDispatch } from "../../store/hooks";
+import { logAsGuest, logIn } from "../../reducers/userReducer";
 import { useNavigate } from "react-router-dom";
+import "../../styles/auth.css";
 
 type Props = {};
 
@@ -66,7 +66,7 @@ const AuthPage = () => {
   }
 
   return (
-    <div className="flex h-fit flex-col items-center justify-center">
+    <div className="mt-5 flex h-fit flex-col items-center justify-center">
       <div
         className={`${
           theme.isDark ? "bg-primary-light" : "bg-primary-dark"

@@ -1,4 +1,4 @@
-import { MediaQuery } from "../helpers/queries";
+import { MediaQuery } from "../helpers/queriesSize";
 import { useState, useEffect } from "react";
 
 const useMediaQuery = (query: MediaQuery): boolean => {

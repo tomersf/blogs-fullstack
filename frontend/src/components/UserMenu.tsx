@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useStoreSelector } from "../store/hooks";
-import ActionButton from "./ActionButton";
+import ActionButton from "./buttons/ActionButton";
 type Props = {};
 
 const UserMenu = (props: Props) => {

@@ -1,5 +1,5 @@
-import HText from "./HText";
-import UserMenu from "./UserMenu";
+import HText from "../components/HText";
+import UserMenu from "../components/UserMenu";
 
 type Props = {
   user: string;
