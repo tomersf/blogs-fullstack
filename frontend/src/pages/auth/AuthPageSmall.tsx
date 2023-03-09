@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import ActionButton from "../../components/buttons/ActionButton";
 import ThemeContext from "../../context/theme";
+import { MediaQuery } from "../../helpers/queriesSize";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
@@ -43,6 +45,10 @@ const AuthOptions = ({
 const AuthPageSmall = (props: Props) => {
   const [registering, setRegistering] = useState(true);
   const theme = useContext(ThemeContext);
+  const isVerySmallScreen = useMediaQuery(MediaQuery.BelowVerySmallScreen);
+  if (isVerySmallScreen) {
+    return <div>Test</div>;
+  }
   return (
     <div className="mt-5 flex h-fit flex-col items-center">
       <div
@@ -51,7 +57,7 @@ const AuthPageSmall = (props: Props) => {
         }  rounded-xl p-6`}
       >
         {registering ? <RegisterForm /> : <LoginForm />}
-        <div className="mt-5">
+        <div className="mt-5 flex justify-center">
           <AuthOptions
             registering={registering}
             setRegistering={setRegistering}
