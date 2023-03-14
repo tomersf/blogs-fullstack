@@ -8,6 +8,8 @@ import { useStoreDispatch } from "../../store/hooks";
 import { logAsGuest, logIn } from "../../reducers/userReducer";
 import { useNavigate } from "react-router-dom";
 import "../../styles/auth.css";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import queriesSize from "../../helpers/queriesSize";
 
 type Props = {};
 
@@ -20,6 +22,10 @@ const AuthPage = () => {
   const theme = useContext(ThemeContext);
   const dispatch = useStoreDispatch();
   const navigate = useNavigate();
+  const isSmallScreenHeight = useMediaQuery(
+    queriesSize.BelowSmallScreenHeight()
+  );
+  const isWidthSmall = useMediaQuery(queriesSize.BelowMediumScreenWidth());
 
   const changeAuth = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setTimeout(function () {
@@ -70,12 +76,16 @@ const AuthPage = () => {
       <div
         className={`${
           theme.isDark ? "bg-primary-light" : "bg-primary-dark"
-        } main relative h-[600px] w-[1000px] overflow-hidden rounded-xl p-6`}
+        } main relative ${isSmallScreenHeight ? "h-[500px]" : "h-[650px]"} ${
+          isWidthSmall ? "w-[750px]" : "w-[1000px]"
+        } overflow-hidden rounded-xl p-6`}
       >
         <div
           className={`${
             isRegistering ? "" : "is-txl"
-          } absolute top-0 left-[calc(100%-600px)] z-[100] flex h-full w-[600px] items-center justify-center ${
+          } absolute top-0 left-[calc(100%-600px)] z-[100] flex h-full ${
+            isWidthSmall ? "w-[825px]" : "w-[600px]"
+          } items-center justify-center ${
             theme.isDark ? "bg-primary-light" : "bg-primary-dark"
           } p-6 duration-[1.25s]`}
         >
@@ -130,7 +140,9 @@ const AuthPage = () => {
         <div
           className={`${
             isRegistering ? "" : "is-txl is-z200"
-          } login-form absolute top-0 flex h-full w-[600px] items-center justify-center ${
+          } login-form absolute top-0 flex h-full ${
+            isWidthSmall ? "w-[380px]" : "w-[600px]"
+          } items-center justify-center ${
             theme.isDark ? "bg-primary-light" : "bg-primary-dark"
           } p-6 duration-[1.25s]`}
         >

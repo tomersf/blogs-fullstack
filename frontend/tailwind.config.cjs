@@ -15,6 +15,11 @@ module.exports = {
         "secondary-dark": "#4b70e2",
       },
     },
+    screens: {
+      xxs: "280px",
+      sm: "640px",
+      md: "1060px",
+    },
   },
   plugins: [],
 };

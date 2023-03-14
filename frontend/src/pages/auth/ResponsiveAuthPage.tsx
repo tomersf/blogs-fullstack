@@ -1,6 +1,6 @@
 import React from "react";
 import ColorTheme from "../../components/ColorTheme";
-import { MediaQuery } from "../../helpers/queriesSize";
+import querySizes from "../../helpers/queriesSize";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import AuthPage from "./AuthPage";
 import AuthPageSmall from "./AuthPageSmall";
@@ -8,7 +8,7 @@ import AuthPageSmall from "./AuthPageSmall";
 type Props = {};
 
 const ResponsiveAuthPage = (props: Props) => {
-  const isSmallScreen = useMediaQuery(MediaQuery.BelowSmallScreen);
+  const isSmallScreen = useMediaQuery(querySizes.BelowSmallScreenWidth());
   if (isSmallScreen) {
     return (
       <div className="flex h-full w-full flex-col">
@@ -23,11 +23,13 @@ const ResponsiveAuthPage = (props: Props) => {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="mt-3 flex w-full px-3">
+    <div className="flex h-full w-full flex-col">
+      <div className="mt-3 px-3">
         <ColorTheme />
       </div>
-      <AuthPage />
+      <div className="flex h-full w-full justify-center">
+        <AuthPage />
+      </div>
     </div>
   );
 };

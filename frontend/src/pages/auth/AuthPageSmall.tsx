@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import FormButton from "../../components/buttons/FormButton";
 import ThemeContext from "../../context/theme";
-import { MediaQuery } from "../../helpers/queriesSize";
-import useMediaQuery from "../../hooks/useMediaQuery";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import "../../styles/auth.css";
 
 type Props = {};
 
@@ -18,10 +17,10 @@ const AuthOptions = ({
   setRegistering,
 }: AuthOptionsProps): JSX.Element => {
   return (
-    <div>
+    <div className="flex w-full justify-center">
       {registering ? (
         <FormButton
-          extraStyles=""
+          extraStyles="w-3/4"
           handleOnClick={() => {
             setRegistering(!registering);
           }}
@@ -30,7 +29,7 @@ const AuthOptions = ({
         </FormButton>
       ) : (
         <FormButton
-          extraStyles=""
+          extraStyles="w-3/4"
           handleOnClick={() => {
             setRegistering(!registering);
           }}
@@ -45,14 +44,9 @@ const AuthOptions = ({
 const AuthPageSmall = (props: Props) => {
   const [registering, setRegistering] = useState(true);
   const theme = useContext(ThemeContext);
-  const isVerySmallScreen = useMediaQuery(MediaQuery.BelowVerySmallScreen);
-
-  if (isVerySmallScreen) {
-    return <div>Test</div>;
-  }
 
   return (
-    <div className="mt-5 flex h-fit flex-col justify-center">
+    <div className="mt-5 flex h-fit flex-col justify-center shadow-lg">
       <div
         className={`${
           theme.isDark ? "bg-primary-light" : "bg-primary-dark"

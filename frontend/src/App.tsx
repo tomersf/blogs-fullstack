@@ -49,7 +49,11 @@ const App = () => {
           toggleDark: () => setDarkMode((prevValue) => !prevValue),
         }}
       >
-        <div className={`app ${darkMode ? "bg-dark-theme" : "bg-gray-20"}`}>
+        <div
+          className={`h-full w-full ${
+            darkMode ? "bg-dark-theme" : "bg-gray-20"
+          }`}
+        >
           <Routes>
             <Route path="/auth" element={<ResponsiveAuthPage />} />
             <Route
