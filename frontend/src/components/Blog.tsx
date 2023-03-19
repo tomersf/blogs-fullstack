@@ -1,9 +1,14 @@
+import {
+  HandThumbDownIcon,
+  HandThumbUpIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { ReturnedBlog } from "@tomersf/blog.shared";
 import { useContext, useState } from "react";
 import ThemeContext from "../context/theme";
 import blogService from "../services/blogService";
 import { useStoreSelector } from "../store/hooks";
-import ActionButton from "./buttons/ActionButton";
+import BlogButton from "./buttons/BlogButton";
 
 type Props = {
   blog: ReturnedBlog;
@@ -40,32 +45,29 @@ const Blog = ({ blog, onDelete }: Props) => {
       <h1>Title: {blog.title}</h1>
       <div>Author: {blog.author}</div>
       <div>Likes: {likes}</div>
-      {
-        <ActionButton
-          extraStyles="w-1/3 rounded-md h-[30px] m-1"
-          handleOnClick={increaseLikeHandler}
-        >
-          LIKE
-        </ActionButton>
-      }
+      <div>
+        <BlogButton handleOnClick={increaseLikeHandler}>
+          <HandThumbUpIcon className="h-5 w-5" />
+        </BlogButton>
+        <BlogButton handleOnClick={increaseLikeHandler}>
+          <HandThumbDownIcon className="h-5 w-5" />
+        </BlogButton>
+      </div>
       <a className="underline" href={`http://${blog.url}`}>
         Link
       </a>
-      <div className="flex w-full flex-col">
-        <div>{`@${
-          blog.user.username.length > 20
-            ? `${blog.user.username.slice(0, 20)}...`
-            : blog.user.username
-        }`}</div>
+      <div className="flex w-full justify-around">
+        <div>
+          {`@${
+            blog.user.username.length > 20
+              ? `${blog.user.username.slice(0, 20)}...`
+              : blog.user.username
+          }`}
+        </div>
         {blog.user.username == user.username ? (
-          <div className="flex justify-center">
-            <ActionButton
-              extraStyles="w-1/2 rounded-md h-[30px] m-1"
-              handleOnClick={deleteBlogHandler}
-            >
-              Delete
-            </ActionButton>
-          </div>
+          <BlogButton handleOnClick={deleteBlogHandler}>
+            <TrashIcon className="h-5 w-5" />
+          </BlogButton>
         ) : null}
       </div>
     </div>

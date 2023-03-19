@@ -7,15 +7,12 @@ import ActionButton from "./components/buttons/ActionButton";
 import { useStoreDispatch, useStoreSelector } from "./store/hooks";
 import { logIn, logOut } from "./reducers/userReducer";
 import { initializeBlogs, setBlogs, setMyBlogs } from "./reducers/blogReducer";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Blogs from "./components/Blogs";
 import CreateBlogForm from "./components/CreateBlogForm";
 import ResponsiveAuthPage from "./pages/auth/ResponsiveAuthPage";
+import BlogPage from "./components/BlogPage";
+import RequireLogin from "./components/RequireLogin";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -28,11 +25,11 @@ const App = () => {
       signOut();
       return;
     }
-    dispatch(initializeBlogs(username));
     if (!user.asGuest) {
+      dispatch(initializeBlogs(username));
       dispatch(logIn(username));
     }
-  }, [user.loggedIn]);
+  }, [user]);
 
   const signOut = () => {
     authService.removeToken();
@@ -59,7 +56,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                user.loggedIn ? (
+                <RequireLogin>
                   <div className="flex h-full w-full">
                     <div className="mt-5 flex w-full px-5">
                       <ColorTheme />
@@ -69,13 +66,12 @@ const App = () => {
                       </ActionButton>
                     </div>
                   </div>
-                ) : (
-                  <Navigate replace to="/auth" />
-                )
+                </RequireLogin>
               }
             >
               <Route path="blogs/:name" element={<Blogs all={false} />}></Route>
               <Route path="blogs" element={<Blogs all />}></Route>
+              <Route path="blog/:id" element={<BlogPage />} />
               <Route path="blog" element={<CreateBlogForm />} />
             </Route>
           </Routes>

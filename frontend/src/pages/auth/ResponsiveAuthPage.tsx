@@ -1,4 +1,3 @@
-import React from "react";
 import ColorTheme from "../../components/ColorTheme";
 import querySizes from "../../helpers/queriesSize";
 import useMediaQuery from "../../hooks/useMediaQuery";

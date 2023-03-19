@@ -52,7 +52,7 @@ const blogSlice = createSlice({
 });
 
 export const initializeBlogs = (username: string): ThunkFn => {
-  return async (dispatch) => {
+  return async (dispatch, state) => {
     const blogs = await blogService.getAll();
     if (guard.isBlogsType(blogs)) {
       dispatch(setBlogs(blogs));

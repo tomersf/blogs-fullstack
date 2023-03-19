@@ -9,7 +9,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   username: null,
-  asGuest: true,
+  asGuest: false,
   loggedIn: false,
 };
 

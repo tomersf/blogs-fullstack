@@ -8,6 +8,7 @@ type Props = {
   ) => void;
   extraStyles?: string;
   isFormButton?: boolean;
+  isBlogButton?: boolean;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
 const ActionButton = ({
@@ -15,13 +16,14 @@ const ActionButton = ({
   handleOnClick,
   extraStyles,
   isFormButton,
+  isBlogButton,
   ...restProps
 }: Props) => {
   const isDarkTheme = useContext(ThemeContext);
   let style, baseStyle, hoverStyle;
   if (isDarkTheme.isDark) {
     baseStyle =
-      "h-[50px] w-[180px] cursor-pointer rounded-3xl text-sm font-bold tracking-[1.15px] outline-none";
+      "h-[50px] w-[180px] rounded-3xl cursor-pointer text-sm font-bold tracking-[1.15px] outline-none";
     hoverStyle = "hover:border-[2px] transition duration-300";
     if (!isFormButton) {
       baseStyle = baseStyle + " " + "bg-primary-light text-dark-theme";
@@ -35,7 +37,7 @@ const ActionButton = ({
       : baseStyle + " " + hoverStyle;
   } else {
     baseStyle =
-      "h-[50px] w-[180px] cursor-pointer rounded-3xl text-sm font-bold tracking-[1.15px] bg-secondary-dark text-primary-dark outline-none";
+      "h-[50px] w-[180px] rounded-3xl cursor-pointer text-sm font-bold tracking-[1.15px] bg-secondary-dark text-primary-dark outline-none";
     hoverStyle =
       "hover:bg-primary-dark hover:border-[2px] hover:border-secondary-dark hover:text-secondary-dark transition duration-300";
     style = extraStyles
