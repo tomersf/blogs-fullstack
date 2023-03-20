@@ -9,6 +9,7 @@ import {
 import ActionButton from "./buttons/ActionButton";
 import HText from "./HText";
 import InputButton from "./buttons/InputButton";
+import FormButton from "./buttons/FormButton";
 
 type Props = {};
 
@@ -52,7 +53,7 @@ const CreateBlogForm = (props: Props) => {
 
   return (
     <div
-      className={`mt-5 min-h-[350px] min-w-[600px] rounded-lg border-4 shadow-lg ${
+      className={`mt-5 rounded-lg border-4 shadow-lg sm:min-h-[350px] sm:min-w-[600px] ${
         theme.isDark
           ? "border-primary-light shadow-primary-light "
           : "border-secondary-dark shadow-secondary-dark "
@@ -65,7 +66,7 @@ const CreateBlogForm = (props: Props) => {
         ) : null}
         {success ? <HText extraStyles="text-xl">Success!</HText> : null}
         <InputButton
-          extraStyles={`${
+          extraStyles={`w-2/3 md:w-[350px] ${
             theme.isDark
               ? "bg-primary-light text-dark-theme"
               : "bg-secondary-dark text-primary-dark"
@@ -75,7 +76,7 @@ const CreateBlogForm = (props: Props) => {
           value={title}
         />
         <InputButton
-          extraStyles={`${
+          extraStyles={`w-2/3 md:w-[350px] ${
             theme.isDark
               ? "bg-primary-light text-dark-theme"
               : "bg-secondary-dark text-primary-dark"
@@ -85,7 +86,7 @@ const CreateBlogForm = (props: Props) => {
           value={author}
         />
         <InputButton
-          extraStyles={`${
+          extraStyles={`w-2/3 md:w-[350px] ${
             theme.isDark
               ? "bg-primary-light text-dark-theme"
               : "bg-secondary-dark text-primary-dark"
@@ -94,11 +95,14 @@ const CreateBlogForm = (props: Props) => {
           onChange={(e) => setURL(e.target.value)}
           value={url}
         />
-        <div>
-          <ActionButton handleOnClick={createBlog} id="create-blog-form-btn">
-            Create Blog
-          </ActionButton>
-        </div>
+
+        <ActionButton
+          extraStyles="w-1/2"
+          handleOnClick={createBlog}
+          id="create-blog-form-btn"
+        >
+          Create Blog
+        </ActionButton>
       </div>
     </div>
   );

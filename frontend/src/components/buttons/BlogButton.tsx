@@ -21,7 +21,7 @@ const BlogButton = ({
   if (isDarkTheme.isDark) {
     style = "text-primary-light hover:text-secondary-light";
   } else {
-    style = "text-secondary-dark hover:text-secondary-dark";
+    style = "text-secondary-dark hover:text-dark-theme";
   }
   return (
     <button className={style} onClick={handleOnClick} {...restProps}>

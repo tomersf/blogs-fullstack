@@ -47,7 +47,7 @@ const App = () => {
         }}
       >
         <div
-          className={`h-full w-full ${
+          className={`min-h-screen w-full ${
             darkMode ? "bg-dark-theme" : "bg-gray-20"
           }`}
         >
@@ -57,11 +57,11 @@ const App = () => {
               path="/"
               element={
                 <RequireLogin>
-                  <div className="flex h-full w-full">
-                    <div className="mt-5 flex w-full px-5">
-                      <ColorTheme />
+                  <div className="flex h-full w-full ">
+                    <div className="flex h-full w-full  px-5">
+                      <ColorTheme extraStyles="mt-5" />
                       <HomePage user={user.username || "Guest"} />
-                      <ActionButton handleOnClick={signOut}>
+                      <ActionButton handleOnClick={signOut} extraStyles="mt-5">
                         Sign Out
                       </ActionButton>
                     </div>

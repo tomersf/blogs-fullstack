@@ -21,8 +21,8 @@ const UserMenu = (props: Props) => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center">
-      <div className="flex gap-6">
+    <div className="flex h-full w-full flex-col items-center ">
+      <div className="flex flex-col gap-2 md:flex-row md:gap-6">
         {user.asGuest ? null : (
           <>
             <ActionButton

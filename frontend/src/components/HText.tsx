@@ -10,13 +10,17 @@ function HText({ children, extraStyles }: Props) {
   const theme = useContext(ThemeContext);
   if (theme.isDark) {
     return (
-      <h1 className={`text-4xl font-bold text-primary-light ${extraStyles}`}>
+      <h1
+        className={`font-bold text-primary-light xxs:text-2xl sm:text-4xl ${extraStyles}`}
+      >
         {children}
       </h1>
     );
   } else {
     return (
-      <h1 className={`text-4xl font-bold text-secondary-dark ${extraStyles}`}>
+      <h1
+        className={`font-bold text-secondary-dark xxs:text-2xl sm:text-4xl ${extraStyles}`}
+      >
         {children}
       </h1>
     );

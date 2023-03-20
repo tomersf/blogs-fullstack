@@ -41,7 +41,6 @@ const Blog = ({ blog, onDelete }: Props) => {
   }
   baseStyles = `${baseStyles} ${styles}`;
   return (
-    // <div className="hover:cursor-pointer"></div>
     <div className={baseStyles}>
       <h1>Title: {blog.title}</h1>
       <div>Author: {blog.author}</div>
@@ -54,10 +53,13 @@ const Blog = ({ blog, onDelete }: Props) => {
           <HandThumbDownIcon className="h-5 w-5" />
         </BlogButton>
       </div>
-      <a className="underline" href={`http://${blog.url}`}>
-        Link
+      <a
+        className="text-blue-500 underline hover:text-blue-300"
+        href={`http://${blog.url}`}
+      >
+        Link to Blog
       </a>
-      <div className="flex w-full justify-around">
+      <div className="flex w-full justify-between">
         <div>
           {`@${
             blog.user.username.length > 20
