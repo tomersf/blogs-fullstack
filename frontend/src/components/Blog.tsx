@@ -31,7 +31,7 @@ const Blog = ({ blog, onDelete }: Props) => {
 
   let baseStyles, styles;
   baseStyles =
-    "flex h-full w-full flex-col items-center justify-around rounded-lg border-2 p-3 gap-2";
+    "flex h-full w-full flex-col items-center justify-around rounded-lg border-2 p-3 gap-2 hover:cursor-pointer";
   if (themeContext.isDark) {
     styles =
       "bg-primary-light text-primary-light bg-transparent border-primary-light";
@@ -41,6 +41,7 @@ const Blog = ({ blog, onDelete }: Props) => {
   }
   baseStyles = `${baseStyles} ${styles}`;
   return (
+    // <div className="hover:cursor-pointer"></div>
     <div className={baseStyles}>
       <h1>Title: {blog.title}</h1>
       <div>Author: {blog.author}</div>

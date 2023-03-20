@@ -1,8 +1,7 @@
-import { Blog as IBlog, ErrorType, ReturnedBlog } from "@tomersf/blog.shared";
 import { HttpStatusCode } from "axios";
-import React, { useEffect } from "react";
+import { setBlogs, setMyBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogService";
-import { useStoreSelector } from "../store/hooks";
+import { useStoreDispatch, useStoreSelector } from "../store/hooks";
 import Blog from "./Blog";
 
 type Props = {
@@ -13,15 +12,20 @@ const Blogs = ({ all }: Props) => {
   const blogs = useStoreSelector((state) =>
     all ? state.blogs.blogs : state.blogs.myBlogs
   );
+  const user = useStoreSelector((state) => state.user.username);
+  const dispatch = useStoreDispatch();
   const blogDeleteHandler = async (id: number) => {
     const result = await blogService.deleteBlog(id);
     if (result == HttpStatusCode.NoContent) {
-      // setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id));
+      dispatch(setBlogs(blogs.filter((blog) => blog.id !== id)));
+      if (user && user !== "Guest") {
+        dispatch(setMyBlogs(user));
+      }
     }
   };
 
   return (
-    <div className="mt-5 grid w-full max-w-sm grid-cols-3 gap-3 md:max-w-2xl">
+    <div className="mt-5 grid w-4/5 gap-3 xxs:grid-cols-1 sm:grid-cols-2 md:grid md:grid-cols-3">
       {blogs.length > 0
         ? blogs.map((blog) => (
             <Blog onDelete={blogDeleteHandler} key={blog.id} blog={blog} />
